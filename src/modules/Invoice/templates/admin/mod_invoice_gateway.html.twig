@@ -60,7 +60,7 @@
                                 {% endfor %}
                                 {% for id in accepted %}
                                     {% if id not in currencies|keys %}
-                                    <option value="{{ id }}" selected>{{ id }}</option>
+                                    <option value="{{ id }}" selected>{{ id }}（历史已选，保留，不是新币种）</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>

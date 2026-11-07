@@ -104,7 +104,12 @@
                             {% set default_currency = guest.currency_get %}
                             {% for currency in admin.currency_get_list.list %}
                                 <tr>
-                                    <td>{% if currency.default %}<strong>{{ currency.code }} ({{ currency.code|currency_symbol }})</strong>{% else %}{{ currency.code }} ({{ currency.code|currency_symbol }}){% endif %}</td>
+                                    <td>
+                                        {% if currency.default %}<strong>{{ currency.code }} ({{ currency.code|currency_symbol }})</strong>{% else %}{{ currency.code }} ({{ currency.code|currency_symbol }}){% endif %}
+                                        {% if currency.code != 'USD' %}
+                                            <div class="form-hint mb-0">保留给历史记录，不能作为新的币种选择。</div>
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href='{{ "currency/manage/#{currency.code}"|url }}'>{{ currency.code|currency_name }}</a>
                                     </td>
