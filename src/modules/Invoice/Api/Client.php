@@ -96,6 +96,10 @@ class Client extends \FOSSBilling\Api\AbstractApi
         if (!is_numeric($data['amount'])) {
             throw new \FOSSBilling\InformationException('You need to enter numeric value');
         }
+        $accountCurrency = strtoupper((string) ($this->getIdentity()->currency ?? ''));
+        if ($accountCurrency !== 'USD') {
+            throw new \FOSSBilling\InformationException('充值只使用美元（USD）。已有余额和历史交易不会被改写。');
+        }
 
         $service = $this->getService();
         $invoice = $service->generateFundsInvoice($this->getIdentity(), $data['amount']);

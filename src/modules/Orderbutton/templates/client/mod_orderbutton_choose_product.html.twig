@@ -1,25 +1,103 @@
-{% set products = guest.product_get_list %}
-<div class="accordion-item">
-    <h3 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#products" aria-expanded="false" aria-controls="products">
-            <svg class="icon me-2"><use href="#apps" /></svg>
-            <span>{{ 'Select Product'|trans }}</span>&nbsp;<span class="badge bg-info">{{ products.list|length }} {{ 'Items'|trans }}</span>
-        </button>
-    </h3>
-    <div id="products" class="accordion-collapse collapse" data-bs-parent="#orderManager">
-        <div class="accordion-body">
-            {% for i, category in guest.product_category_get_list.list %}
-                <h4 {% if i > 0 %} class="mt-3" {% endif %}>{{ category.title }}</h4>
-                <span>{{ (category.description ?? '')|markdown_to_html }}</span>
-                <div class="list-group">
-                    {% for i, product in category.products|sort((a, b) => a.priority <=> b.priority) %}
-                        <a class="list-group-item" href="{{ 'order'|url(query: { 'product': product.id, 'show_custom_form_values': request.show_custom_form_values }) }}">
-                            {{ product.title }}
-                            <svg class="icon"><use href="#arrow-right" /></svg>
-                        </a>
-                    {% endfor %}
-                </div>
+{% macro region_of(title) %}
+{%- if '香港' in title -%}香港
+{%- elseif '日本' in title -%}日本
+{%- elseif '新加坡' in title -%}新加坡
+{%- elseif '韩国' in title -%}韩国
+{%- elseif '泰国' in title -%}泰国
+{%- elseif '台北' in title -%}台北
+{%- elseif '越南' in title -%}越南
+{%- else -%}其他
+{%- endif -%}
+{% endmacro %}
+{% import _self as tb %}
+{% set categories = guest.product_category_get_list.list %}
+<div id="tb-catalog">
+    <div class="tb-filters">
+        <div class="tb-filter-row">
+            <strong>类型</strong>
+            <button type="button" class="tb-chip is-on" data-tb-filter="type" data-value="all">全部</button>
+            <button type="button" class="tb-chip" data-tb-filter="type" data-value="virtual">云服务器</button>
+            <button type="button" class="tb-chip" data-tb-filter="type" data-value="dedicated">独立服务器</button>
+        </div>
+        <div class="tb-filter-row">
+            <strong>地区</strong>
+            <button type="button" class="tb-chip is-on" data-tb-filter="region" data-value="all">全部</button>
+            {% for region in ['香港', '日本', '新加坡', '韩国', '泰国', '台北', '越南'] %}
+                <button type="button" class="tb-chip" data-tb-filter="region" data-value="{{ region }}">{{ region }}</button>
             {% endfor %}
         </div>
+        <div class="tb-filter-row">
+            <span>已选筛选：<span data-tb-chips>全部</span></span>
+            <button type="button" class="tb-chip" data-tb-clear>清除筛选</button>
+            <button type="button" class="tb-chip is-on" data-tb-view="cards">卡片</button>
+            <button type="button" class="tb-chip" data-tb-view="table">表格</button>
+            <select class="tb-sort" data-tb-sort aria-label="排序">
+                <option value="price-asc">价格从低到高</option>
+                <option value="price-desc">价格从高到低</option>
+            </select>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="tb-group-title">产品</h2>
+        <span class="text-muted"><span data-tb-count>0</span> 个</span>
+    </div>
+    <div class="tb-grid" data-tb-grid>
+        {% for category in categories %}
+            {% set kind = '独立' in category.title ? 'dedicated' : 'virtual' %}
+            {% set region = tb.region_of(category.title)|trim %}
+            {% for product in category.products|sort((a, b) => a.priority <=> b.priority) %}
+                {% set price = product.price_starting_from|default(0) %}
+                {% set blocked = product.slug starts with 'mc-' or (product.orderable is defined and not product.orderable) %}
+                <article class="tb-card" data-tb-product data-type="{{ kind }}" data-region="{{ region }}" data-price="{{ price }}">
+                    <div class="text-muted small">{{ region }} · {{ kind == 'dedicated' ? '独立服务器' : '云服务器' }}</div>
+                    <h3>{{ product.title }}</h3>
+                    <ul class="tb-specs">
+                        {% for group in product.priced_options.groups|default([]) %}
+                            {% if group.code in ['vcpu', 'memory', 'os_disk', 'bandwidth', 'ip'] and not group.disabled|default(false) %}
+                                {% for value in group.values %}
+                                    {% if value.is_default %}
+                                        <li>{{ group.label }}：{{ value.label }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small text-muted">月付起</div>
+                            <div class="tb-price">US${{ price }}</div>
+                        </div>
+                        {% if blocked %}
+                            <button type="button" class="btn btn-secondary" disabled>待资源就绪</button>
+                        {% else %}
+                            <a class="btn tb-primary" href="{{ 'order'|url(query: { 'product': product.id }) }}">配置</a>
+                        {% endif %}
+                    </div>
+                    <table class="d-none"><tbody>
+                        <tr data-tb-row data-type="{{ kind }}" data-region="{{ region }}">
+                            <td>{{ product.title }}</td>
+                            <td>{{ region }}</td>
+                            <td class="tb-price">US${{ price }}</td>
+                            <td>
+                                {% if blocked %}
+                                    <button type="button" class="btn btn-secondary btn-sm" disabled>待资源就绪</button>
+                                {% else %}
+                                    <a class="btn tb-primary btn-sm" href="{{ 'order'|url(query: { 'product': product.id }) }}">配置</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </article>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="tb-table-wrap tb-hidden" data-tb-table-wrap>
+        <table class="tb-table">
+            <thead>
+                <tr><th>产品</th><th>地区</th><th>月付起</th><th></th></tr>
+            </thead>
+            <tbody data-tb-table></tbody>
+        </table>
     </div>
 </div>
+<script src="{{ 'js/twbyte-catalog.js' | asset_url }}"></script>

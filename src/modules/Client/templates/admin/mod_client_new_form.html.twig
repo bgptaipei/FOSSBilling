@@ -148,7 +148,8 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="currency">{{ 'Currency'|trans }}</label>
-                            {{ mf.selectbox('currency', guest.currency_get_pairs, request.currency, 0, 'Select Currency'|trans) }}
+                            <input id="currency" class="form-control" value="USD" disabled>
+                            <input type="hidden" name="currency" value="USD">
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="new-client-language">{{ 'Language'|trans }}</label>

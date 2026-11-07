@@ -1941,7 +1941,12 @@ class Service implements InjectionAwareInterface
             throw new \FOSSBilling\InformationException('该产品没有可计价的配置项');
         }
 
-        $currency = $this->resolveQuoteCurrency(isset($data['currency']) ? (string) $data['currency'] : null);
+        $requestedCurrency = strtoupper(trim((string) ($data['currency'] ?? '')));
+        if ($requestedCurrency !== '' && $requestedCurrency !== 'USD') {
+            throw new \FOSSBilling\InformationException('价格预览只使用美元（USD）。');
+        }
+        unset($data['currency'], $data['rate'], $data['conversion_rate']);
+        $currency = $this->resolveQuoteCurrency('USD');
         $baseCurrency = $this->pricedOptionBaseCurrency();
         $config = [
             'period' => (string) ($data['period'] ?? '1M'),
@@ -2037,7 +2042,7 @@ class Service implements InjectionAwareInterface
                     'code' => $group['code'],
                     'label' => $group['label'],
                     'disabled' => true,
-                    'reason' => '源站记录不足以确认计费方式，暂不可选，也不会记入账单。',
+                    'reason' => '快照和备份暂不可选，不计费。',
                     'values' => [],
                 ];
 

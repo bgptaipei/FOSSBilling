@@ -126,6 +126,7 @@ test('getSessionCart creates a new cart when one does not exist', function (?int
     $currencyModel = Mockery::mock(Currency::class)->shouldIgnoreMissing();
     $currencyId = random_int(0, 1000);
     $currencyModel->shouldReceive('getId')->andReturn($currencyId);
+    $currencyModel->shouldReceive('getCode')->andReturn('USD');
 
     $session_id = 'rrcpqo7tkjh14d2vmf0car64k7';
 
@@ -139,21 +140,13 @@ test('getSessionCart creates a new cart when one does not exist', function (?int
 
     $sessionMock = Mockery::mock(FOSSBilling\Session::class)->shouldIgnoreMissing();
     $sessionMock->shouldReceive('getId')->atLeast()->once()->andReturn($session_id);
-    $sessionMock->shouldReceive('get')->atLeast()->once()->andReturn($sessionGetWillReturn);
+    $sessionMock->shouldReceive('get')->zeroOrMoreTimes()->andReturn($sessionGetWillReturn);
 
     $currencyRepositoryMock = Mockery::mock(CurrencyRepository::class)->makePartial();
-    if ($sessionGetWillReturn === null) {
-        $currencyRepositoryMock->shouldReceive('findDefault')->atLeast()->once()->andReturn($currencyModel);
-    } else {
-        $currencyRepositoryMock->shouldNotReceive('findDefault');
-    }
+    $currencyRepositoryMock->shouldReceive('findDefault')->atLeast()->once()->andReturn($currencyModel);
 
     $currencyServiceMock = Mockery::mock(CurrencyService::class)->makePartial();
-    if ($getCurrencyByClientIdExpects === 'atLeastOnce') {
-        $currencyServiceMock->shouldReceive('getCurrencyByClientId')->atLeast()->once()->andReturn($currencyModel);
-    } else {
-        $currencyServiceMock->shouldNotReceive('getCurrencyByClientId');
-    }
+    $currencyServiceMock->shouldNotReceive('getCurrencyByClientId');
     $currencyServiceMock->shouldReceive('getCurrencyRepository')->atLeast()->once()->andReturn($currencyRepositoryMock);
 
     $di = container();
@@ -168,7 +161,7 @@ test('getSessionCart creates a new cart when one does not exist', function (?int
     expect($result->getSessionId())->toEqual($session_id);
     expect($result->getCurrencyId())->toEqual($currencyId);
 })->with([
-    [100, 'atLeastOnce', 'never'],
+    [100, 'never', 'atLeastOnce'],
     [null, 'never', 'atLeastOnce'],
 ]);
 
@@ -178,6 +171,7 @@ test('getSessionCart reloads the existing cart after a concurrent insert wins', 
 
     $sessionId = 'rrcpqo7tkjh14d2vmf0car64k7';
     $currency = createEntity(Currency::class, ['id' => 1]);
+    (new ReflectionProperty(Currency::class, 'code'))->setValue($currency, 'USD');
     $winningCart = createEntity(Cart::class, ['id' => 2, 'session_id' => $sessionId]);
 
     $initialRepository = Mockery::mock(CartRepository::class);
@@ -209,7 +203,7 @@ test('getSessionCart reloads the existing cart after a concurrent insert wins', 
 
     $session = Mockery::mock(FOSSBilling\Session::class);
     $session->shouldReceive('getId')->once()->andReturn($sessionId);
-    $session->shouldReceive('get')->once()->with('client_id')->andReturn(null);
+    $session->shouldReceive('get')->zeroOrMoreTimes()->with('client_id')->andReturn(null);
 
     $di = container();
     $di['em'] = $initialEntityManager;
@@ -2149,4 +2143,69 @@ describe('resolveFamilyGroupId', function (): void {
             ->and($second)->toBe('5_2')
             ->and($orphanAddon)->toBe('5_3');
     });
+});
+
+test('an empty non-USD cart switches to USD and a cart with lines is left unchanged', function (array $lines, int $expectedCurrencyId, bool $persists): void {
+    $service = new Service();
+    $cart = createEntity(Cart::class, ['id' => 4, 'currency_id' => 1, 'session_id' => 'legacy-cart']);
+    $cny = createEntity(Currency::class, ['id' => 1]);
+    (new ReflectionProperty(Currency::class, 'code'))->setValue($cny, 'CNY');
+    $usd = createEntity(Currency::class, ['id' => 2]);
+    (new ReflectionProperty(Currency::class, 'code'))->setValue($usd, 'USD');
+
+    $cartRepo = Mockery::mock(CartRepository::class);
+    $cartRepo->shouldReceive('findBySessionId')->once()->with('legacy-cart')->andReturn($cart);
+
+    $cartProductRepo = Mockery::mock(CartProductRepository::class);
+    $cartProductRepo->shouldReceive('findByCartId')->once()->with(4)->andReturn($lines);
+
+    $currencyRepo = Mockery::mock(CurrencyRepository::class);
+    $currencyRepo->shouldReceive('find')->once()->with(1)->andReturn($cny);
+    $currencyRepo->shouldReceive('findDefault')->times($persists ? 1 : 0)->andReturn($usd);
+
+    $em = Mockery::mock(Doctrine\ORM\EntityManagerInterface::class);
+    $em->shouldReceive('getRepository')->with(Cart::class)->andReturn($cartRepo);
+    $em->shouldReceive('getRepository')->with(CartProduct::class)->andReturn($cartProductRepo);
+    $em->shouldReceive('getRepository')->with(Currency::class)->andReturn($currencyRepo);
+    $em->shouldReceive('persist')->times($persists ? 1 : 0);
+    $em->shouldReceive('flush')->times($persists ? 1 : 0);
+
+    $currencyService = Mockery::mock(CurrencyService::class);
+    $currencyService->shouldReceive('getCurrencyRepository')->times($persists ? 1 : 0)->andReturn($currencyRepo);
+
+    $di = container();
+    $di['em'] = $em;
+    $di['mod_service'] = $di->protect(fn () => $currencyService);
+    $service->setDi($di);
+
+    $result = $service->getSessionCart('legacy-cart');
+
+    expect($result)->toBe($cart)
+        ->and($result->getCurrencyId())->toBe($expectedCurrencyId);
+})->with([
+    'empty cart moves to USD' => [[], 2, true],
+    'cart with lines keeps CNY amounts' => [[new CartProduct()], 1, false],
+]);
+
+test('checkout refuses a non-USD cart without repricing it', function (): void {
+    $cart = createEntity(Cart::class, ['id' => 8, 'currency_id' => 1]);
+    $client = createEntity(Client::class, ['id' => 2, 'currency' => 'USD']);
+    $cny = createEntity(Currency::class, ['id' => 1]);
+    (new ReflectionProperty(Currency::class, 'code'))->setValue($cny, 'CNY');
+
+    $currencyRepo = Mockery::mock(CurrencyRepository::class);
+    $currencyRepo->shouldReceive('find')->once()->with(1)->andReturn($cny);
+    $currencyService = Mockery::mock(CurrencyService::class);
+    $currencyService->shouldReceive('getCurrencyRepository')->once()->andReturn($currencyRepo);
+
+    $service = Mockery::mock(Service::class)->makePartial();
+    $service->shouldNotReceive('createFromCart');
+
+    $di = container();
+    $di['mod_service'] = $di->protect(fn () => $currencyService);
+    $service->setDi($di);
+
+    expect(fn () => $service->checkoutCart($cart, $client))
+        ->toThrow(FOSSBilling\InformationException::class, '购物车不是美元计价');
+    expect($cart->getCurrencyId())->toBe(1);
 });

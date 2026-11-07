@@ -1,0 +1,33 @@
+<aside class="tb-sidebar" aria-label="站点导航">
+    <div class="tb-brand">
+        {{ include('partial_company_logo.html.twig', {
+            company: company|default(guest.system_company),
+            logo_url: (company|default(guest.system_company)).logo_url|default(null),
+            dark_logo_url: (company|default(guest.system_company)).logo_url_dark|default(null),
+            image_height: '36px'
+        }) }}
+    </div>
+    <nav>
+        <a class="{% if current_active_menu|default('') == 'dashboard' %}is-active{% endif %}" href="{{ '/'|url }}">首页</a>
+        <a class="{% if current_active_menu|default('') == 'order' %}is-active{% endif %}" href="{{ 'order'|url }}">选购</a>
+        {% if client|default(false) %}
+            <a class="{% if current_active_menu|default('') == 'services' %}is-active{% endif %}" href="{{ 'order/service'|url }}">我的服务</a>
+            <a class="{% if current_active_menu|default('') == 'invoices' %}is-active{% endif %}" href="{{ 'invoice'|url }}">发票</a>
+            <a class="{% if current_active_menu|default('') == 'payments' %}is-active{% endif %}" href="{{ 'client/balance'|url }}">余额</a>
+        {% endif %}
+        <a class="{% if current_active_menu|default('') == 'support' %}is-active{% endif %}" href="{{ support_url|default('support'|url) }}">工单</a>
+        {% if guest.extension_is_on({"mod":"news"}) %}
+            <a href="{{ 'news'|url }}">公告</a>
+        {% endif %}
+        {% if guest.support_kb_enabled() %}
+            <a href="{{ 'support/kb'|url }}">知识库</a>
+        {% endif %}
+        {% if client|default(false) %}
+            <a href="{{ 'client/profile'|url }}">账户</a>
+            <a href="{{ 'client/logout'|url }}">退出</a>
+        {% else %}
+            <a href="{{ 'login'|url }}">登录</a>
+            <a href="{{ 'signup'|url }}">注册</a>
+        {% endif %}
+    </nav>
+</aside>

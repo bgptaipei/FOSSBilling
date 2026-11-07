@@ -375,7 +375,7 @@ test('windows has no verified price and snapshot backup is not split into two ch
             ['period' => '1M', 'options' => ['snapshot_backup' => 'snap-1']],
             $product['base_monthly_cents'],
             0
-        ))->toThrow(FOSSBilling\InformationException::class, '该配置项尚未核实，不能计价');
+        ))->toThrow(FOSSBilling\InformationException::class, '该配置项暂不可选');
     }
 });
 
@@ -494,7 +494,7 @@ test('unverified source products are not given zero-priced options', function ()
     $ignored = PricedOptionEngine::quote($catalog, ['period' => '1M'], 6900, 0);
     expect($ignored['recurring_cents'])->toBe(6900);
     expect(fn () => PricedOptionEngine::quote($catalog, ['period' => '1M', 'options' => ['bandwidth' => 'gia-100m']], 6900, 0))
-        ->toThrow(FOSSBilling\InformationException::class, '该配置项尚未核实，不能计价');
+        ->toThrow(FOSSBilling\InformationException::class, '该配置项暂不可选');
 });
 
 test('product pricing uses the catalog and ignores a forged order price', function (): void {

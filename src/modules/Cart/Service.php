@@ -239,6 +239,8 @@ class Service implements InjectionAwareInterface
         $cart = $this->getCartRepository()->findBySessionId($sessionID);
 
         if ($cart instanceof Cart) {
+            $this->moveEmptyLegacyCartToUsd($cart);
+
             return $cart;
         }
 
@@ -246,19 +248,11 @@ class Service implements InjectionAwareInterface
         /** @var \Box\Mod\Currency\Repository\CurrencyRepository $currencyRepository */
         $currencyRepository = $currencyService->getCurrencyRepository();
 
-        // Try to get client's currency if client is logged in
-        $currency = null;
-        $clientId = $this->di['session']->get('client_id');
-        if ($clientId) {
-            $currency = $currencyService->getCurrencyByClientId((int) $clientId);
-        }
-
-        // Fallback to default currency
-        if (!$currency instanceof Currency) {
-            $currency = $currencyRepository->findDefault();
-            if (!$currency instanceof Currency) {
-                throw new \FOSSBilling\Exception('Default currency not found');
-            }
+        // New carts follow the order currency (USD), not a legacy account currency.
+        // Logging in must not copy CNY onto the cart or rewrite the client profile.
+        $currency = $currencyRepository->findDefault();
+        if (!$currency instanceof Currency || $currency->getCode() !== \Box\Mod\Currency\OrderCurrencyPolicy::CODE) {
+            throw new \FOSSBilling\Exception('Default currency not found');
         }
 
         $cart = new Cart();
@@ -773,6 +767,8 @@ class Service implements InjectionAwareInterface
             }
         }
 
+        $this->assertUsdCheckout($cart);
+
         $this->di['events_manager']->fire(
             [
                 'event' => 'onBeforeClientCheckout',
@@ -1040,7 +1036,10 @@ class Service implements InjectionAwareInterface
 
                     $clientBalanceService = $this->di['mod_service']('Client', 'Balance');
                     $balanceAmount = $clientBalanceService->getClientBalance($legacyClient);
-                    $useCredits = $balanceAmount >= $ca['total'];
+                    $accountCurrency = strtoupper((string) $this->clientCurrency($client));
+                    // A CNY balance must not pay a USD invoice. The amount has no currency column.
+                    $useCredits = \Box\Mod\Currency\OrderCurrencyPolicy::canApplyBalance($accountCurrency, $currencyCode)
+                        && $balanceAmount >= $ca['total'];
 
                     $invoiceService->approveInvoice($invoiceModel, ['id' => $invoiceModel->id, 'use_credits' => $useCredits]);
 
@@ -1257,6 +1256,51 @@ class Service implements InjectionAwareInterface
         }
 
         return [$discount_price, $discount_setup];
+    }
+
+    /**
+     * An empty cart priced in a retired currency can move to USD because it has no amounts.
+     * A cart that already has lines is left unchanged; checkout refuses it instead of converting.
+     */
+    private function moveEmptyLegacyCartToUsd(Cart $cart): void
+    {
+        $currencyId = $cart->getCurrencyId();
+        if ($currencyId === null || $this->di === null || !isset($this->di['em'], $this->di['mod_service'])) {
+            return;
+        }
+
+        try {
+            $currency = $this->di['em']->getRepository(Currency::class)->find($currencyId);
+        } catch (\Throwable) {
+            return;
+        }
+        if (!$currency instanceof Currency || $currency->getCode() === \Box\Mod\Currency\OrderCurrencyPolicy::CODE) {
+            return;
+        }
+        if ($this->findCartProducts($cart) !== []) {
+            return;
+        }
+
+        $usd = $this->di['mod_service']('currency')->getCurrencyRepository()->findDefault();
+        if (!$usd instanceof Currency || $usd->getCode() !== \Box\Mod\Currency\OrderCurrencyPolicy::CODE) {
+            return;
+        }
+
+        $cart->setCurrencyId($usd->getId());
+        $this->persistCart($cart);
+    }
+
+    private function assertUsdCheckout(Cart|\Model_Cart $cart): void
+    {
+        $currencyService = $this->di['mod_service']('currency');
+        if (!is_object($currencyService) || !method_exists($currencyService, 'getCurrencyRepository')) {
+            return;
+        }
+        $currency = $currencyService->getCurrencyRepository()->find($this->cartCurrencyId($cart));
+        $cartCode = $currency instanceof Currency ? $currency->getCode() : '';
+        if ($cartCode !== \Box\Mod\Currency\OrderCurrencyPolicy::CODE) {
+            throw new \FOSSBilling\InformationException('购物车不是美元计价。请清空后重新选择。系统不会把原金额折算成美元。');
+        }
     }
 
     /**

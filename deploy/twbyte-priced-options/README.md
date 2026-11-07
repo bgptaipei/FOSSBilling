@@ -29,14 +29,18 @@
 | mc-hk-cdia-cloud-amd | 88 | 144.00 | 名单中有，加价未记录，不可选 |
 | mc-hk-cia-cloud-amd | 84 | 65.00 | 名单中有，加价未记录，不可选 |
 
-其余 40 个 `mc-*` 产品没有配置器明细。导入脚本不会给它们建选项，也不会写 0 元占位。订购页显示“尚未核实”。以后把核实过的组写进 `hk7-priced-options.json` 的 `products` 再导入即可。未核实组如果 `verified = 0`，计价会拒绝，不会按 0 元成交。
+其余 40 个 `mc-*` 产品没有配置器明细。导入脚本不会给它们建选项，也不会写 0 元占位。订购页显示“可选配置暂未开放”。以后把核对过的组写进 `hk7-priced-options.json` 的 `products` 再导入即可。`verified = 0` 的组会计价拒绝，不会按 0 元成交。
+
+## 币种
+
+新的价格、新购物车和新注册只使用 USD。CNY 币种行保留（汇率 6.7），已处理的历史交易保持原币种。客户 id 2 已是 USD，礼品余额数字不变，按美元读取。不要把余额按汇率折算，不要改写历史交易，不要启用支付网关。空的非美元购物车可以改到 USD，因为里面没有金额；已有商品的非美元购物车不改价，结算时拒绝并要求清空后重选。美元账户的余额可以支付美元发票。非美元余额不能拿去付美元发票。
 
 IP 加价是每多 1 个 IP 4.30 美元，并且只存在源站写明的档位里：pid 119 只有 1 个；pid 60 是 1 到 5；其余 5 款是 2 到 8。没有把这个阶梯推广到未写明的产品。
 
 ## 部署顺序
 
 1. 备份数据库，至少包括 `product`、`product_payment`、`client_order`、`invoice_item`。
-2. 部署本分支代码。模板是 Twig，订购页脚本写在模板里，不需要重新构建前端资源。
+2. 部署本分支代码。订购页和门户样式在 `src/themes/huraga/assets`，管理端样式在 `src/themes/admin_default/assets/css/twbyte-admin.css`，由主题直接引用，不需要重新构建前端资源。
 3. 先执行 `001_schema.sql`。它只创建 `product_option_group` 和 `product_option_value`。
 4. 再导入选项。两条路径二选一：
    - 推荐：`php import-priced-options.php --config=/var/www/fossbilling/config.php --data=hk7-priced-options.json dry`，确认输出的组数和值数后把 `dry` 换成 `apply`。缺 slug 会退出且不写入。

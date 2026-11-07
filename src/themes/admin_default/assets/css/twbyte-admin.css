@@ -1,0 +1,13 @@
+/* Readable admin chrome. Does not change navigation structure or payment gateways. */
+:root {
+    --tblr-primary: #2f6bff;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: #2f6bff;
+}
+
+.table thead th {
+    font-weight: 600;
+}

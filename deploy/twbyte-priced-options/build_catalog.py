@@ -547,7 +547,7 @@ def main():
         "unverified_products": [
             {
                 "slug": slug,
-                "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。",
+                "reason": "可选配置暂未开放，不创建选项，也不使用 0 元占位价。",
             }
             for slug in UNVERIFIED_SLUGS
         ],

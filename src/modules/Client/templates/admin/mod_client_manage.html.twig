@@ -367,7 +367,10 @@
                                 </div>
                                 <div class="col-xl-3">
                                     <label class="form-label">{{ 'Currency'|trans }}</label>
-                                    {{ mf.selectbox('currency', guest.currency_get_pairs, client.currency, 0, 'Select Currency'|trans) }}
+                                    <input class="form-control" value="{{ client.currency ?: 'USD' }}" disabled>
+                                    {% if client.currency and client.currency != 'USD' %}
+                                        <div class="form-text">历史账户币种为 {{ client.currency }}。保存资料不会改写余额或历史交易。</div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-xl-3">
                                     <label class="form-label d-block">{{ 'Exempt from Tax'|trans }}</label>

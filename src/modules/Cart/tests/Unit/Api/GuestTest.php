@@ -58,35 +58,35 @@ test('reset returns true', function (): void {
     expect($result)->toBeTrue();
 });
 
-test('setCurrency returns true', function (): void {
+test('setCurrency rejects a non-USD selection', function (): void {
+    $guestApi = apiEndpoint(new Guest());
+    $serviceMock = Mockery::mock(Service::class)->makePartial();
+    $serviceMock->shouldNotReceive('getSessionCart');
+    $serviceMock->shouldNotReceive('changeCartCurrency');
+    $guestApi->setService($serviceMock);
+
+    expect(fn () => $guestApi->set_currency(['currency' => 'CNY']))
+        ->toThrow(FOSSBilling\InformationException::class, '新的价格和结算只使用美元（USD）。');
+});
+
+test('setCurrency accepts USD', function (): void {
     $guestApi = apiEndpoint(new Guest());
     $serviceMock = Mockery::mock(Service::class)->makePartial();
     $serviceMock->shouldReceive('getSessionCart')->atLeast()->once()->andReturn(createEntity(Box\Mod\Cart\Entity\Cart::class));
     $serviceMock->shouldReceive('changeCartCurrency')->atLeast()->once()->andReturn(true);
 
-    $validatorMock = Mockery::mock(FOSSBilling\Validate::class)->shouldIgnoreMissing();
-
     $currencyMock = Mockery::mock(Currency::class)->shouldIgnoreMissing();
-
     $currencyRepositoryMock = Mockery::mock(CurrencyRepository::class)->makePartial();
-    $currencyRepositoryMock->shouldReceive('findOneByCode')->atLeast()->once()->andReturn($currencyMock);
-
+    $currencyRepositoryMock->shouldReceive('findOneByCode')->once()->with('USD')->andReturn($currencyMock);
     $currencyServiceMock = Mockery::mock(CurrencyService::class)->makePartial();
     $currencyServiceMock->shouldReceive('getCurrencyRepository')->atLeast()->once()->andReturn($currencyRepositoryMock);
 
     $di = container();
-    $di['validator'] = $validatorMock;
     $di['mod_service'] = $di->protect(fn () => $currencyServiceMock);
     $guestApi->setDi($di);
-
     $guestApi->setService($serviceMock);
 
-    $data = [
-        'currency' => 'EUR',
-    ];
-    $result = $guestApi->set_currency($data);
-
-    expect($result)->toBeTrue();
+    expect($guestApi->set_currency(['currency' => 'USD']))->toBeTrue();
 });
 
 test('setCurrency throws exception when currency is not found', function (): void {
@@ -111,7 +111,7 @@ test('setCurrency throws exception when currency is not found', function (): voi
     $guestApi->setService($serviceMock);
 
     $data = [
-        'currency' => 'EUR',
+        'currency' => 'USD',
     ];
 
     expect(fn () => $guestApi->set_currency($data))->toThrow(FOSSBilling\InformationException::class, 'Currency not found');

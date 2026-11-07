@@ -102,7 +102,7 @@ final class PricedOptionEngine
             $code = (string) $group['code'];
             if (!($group['verified'] ?? false)) {
                 if (array_key_exists($code, $rawOptions)) {
-                    throw new InformationException('该配置项尚未核实，不能计价');
+                    throw new InformationException('该配置项暂不可选');
                 }
 
                 continue;
@@ -441,10 +441,10 @@ final class PricedOptionEngine
     private static function assertGroupBillable(array $group, string $baseCurrency, string $period): void
     {
         if (!($group['verified'] ?? false)) {
-            throw new InformationException('该配置项尚未核实，不能计价');
+            throw new InformationException('该配置项暂不可选');
         }
         if (!($group['active'] ?? true)) {
-            throw new InformationException('该配置项尚未核实，不能计价');
+            throw new InformationException('该配置项暂不可选');
         }
         $currency = strtoupper((string) ($group['currency'] ?? ''));
         if ($currency !== strtoupper($baseCurrency)) {
