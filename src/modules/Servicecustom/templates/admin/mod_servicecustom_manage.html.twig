@@ -4,6 +4,10 @@
         <p class="text-secondary mb-0">{{ 'Update the custom service values stored against this order. These fields are defined by the selected custom service plugin.'|trans }}</p>
     </div>
 
+    {% if order.config.priced_option_summary is defined and order.config.priced_option_summary %}
+        <div class="alert alert-info" style="white-space: pre-line">{{ order.config.priced_option_summary }}</div>
+    {% endif %}
+
     <form method="post" action="{{ 'servicecustom/update'|api_url }}" {{ fb_api_form({message: 'Service Updated'|trans}) }}>
         <div class="row g-3">
             {% for name, value in service %}
@@ -24,3 +28,4 @@
         </div>
     </form>
 </div>
+{% if service.plugin is defined and service.plugin == 'OpenNebula' %}{{ include('_opennebula_panel.html.twig') }}{% endif %}

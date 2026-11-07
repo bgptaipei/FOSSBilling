@@ -86,7 +86,7 @@
     <select name="{{ name }}" class="form-control{% if required %} is-required{% endif %}">
         {% if nullOption %}<option value="">{{ nullOption }}</option>{% endif %}
         {% for val, label in options %}
-            <option value="{{ val }}" {% if selected == val %}selected{% endif %}>{{ label }}</option>
+            <option value="{{ val }}" {% if selected == val %}selected{% endif %}>{{ (('twbyte-demo|' ~ (label))|trans|replace({'twbyte-demo|': ''})) }}</option>
         {% endfor %}
     </select>
 {% endmacro selectbox %}

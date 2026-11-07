@@ -15,6 +15,7 @@
                     {% for i, product in category.products|sort((a, b) => a.priority <=> b.priority) %}
                         <a class="list-group-item" href="{{ 'order'|url(query: { 'product': product.id, 'show_custom_form_values': request.show_custom_form_values }) }}">
                             {{ product.title }}
+                            {% if product.slug starts with 'mc-' %}<span class="badge bg-secondary ms-1">待资源就绪，暂不可订购</span>{% endif %}
                             <svg class="icon"><use href="#arrow-right" /></svg>
                         </a>
                     {% endfor %}

@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Box\Mod\Product\Api;
 
 use Box\Mod\Product\Entity\Product;
+use FOSSBilling\Validation\Api\RequiredParams;
 
 class Guest extends \FOSSBilling\Api\AbstractApi
 {
@@ -74,6 +75,24 @@ class Guest extends \FOSSBilling\Api\AbstractApi
         }
 
         return $service->toApiArray($model);
+    }
+
+    /**
+     * Quote priced dropdown options without adding the product to the cart.
+     * Client-supplied prices and exchange rates are ignored.
+     *
+     * @return array<string, mixed>
+     */
+    #[RequiredParams(['id' => 'Product ID was not passed'])]
+    public function priced_options_quote($data): array
+    {
+        $service = $this->getService();
+        $model = $service->findOneActiveById((int) $data['id']);
+        if (!$model instanceof Product) {
+            throw new \FOSSBilling\InformationException('Product not found');
+        }
+
+        return $service->quotePricedOptions($model, $data);
     }
 
     /**

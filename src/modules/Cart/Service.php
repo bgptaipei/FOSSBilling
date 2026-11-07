@@ -938,7 +938,14 @@ class Service implements InjectionAwareInterface
                     $order->setUnit($item['unit'] ?? null);
                     $order->setPeriod($item['period'] ?? null);
                     $order->setQuantity($item['quantity'] ?? null);
-                    $order->setPrice($item['price'] * $currency->getConversionRate());
+                    $pricedCharge = $this->pricedOptionCharge($item, $currency);
+                    if ($pricedCharge === null) {
+                        $order->setPrice($item['price'] * $currency->getConversionRate());
+                    } else {
+                        $order->setPrice((float) \Box\Mod\Product\PricedOptionEngine::centsToAmount($pricedCharge['unit_recurring_cents']));
+                        $item[\Box\Mod\Product\PricedOptionEngine::SNAPSHOT_KEY] = json_encode($pricedCharge['snapshot'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                        $item[\Box\Mod\Product\PricedOptionEngine::SUMMARY_KEY] = \Box\Mod\Product\PricedOptionEngine::summary($pricedCharge['snapshot']);
+                    }
                     $order->setDiscount($item['discount_price'] * $currency->getConversionRate());
                     $order->setStatus(Order::STATUS_PENDING_SETUP);
                     $order->setNotes($item['notes'] ?? null);
@@ -958,17 +965,34 @@ class Service implements InjectionAwareInterface
                     $orderService = $this->di['mod_service']('order');
                     $orderService->saveStatusChange($order, 'Order Created');
 
-                    $invoice_items[] = [
-                        'title' => $order->getTitle(),
-                        'price' => $order->getPrice(),
-                        'quantity' => $order->getQuantity(),
-                        'unit' => $order->getUnit(),
-                        'period' => $order->getPeriod(),
-                        'taxed' => $taxed,
-                        'type' => \Model_InvoiceItem::TYPE_ORDER,
-                        'rel_id' => $order->getId(),
-                        'task' => \Model_InvoiceItem::TASK_ACTIVATE,
-                    ];
+                    if ($pricedCharge === null) {
+                        $invoice_items[] = [
+                            'title' => $order->getTitle(),
+                            'price' => $order->getPrice(),
+                            'quantity' => $order->getQuantity(),
+                            'unit' => $order->getUnit(),
+                            'period' => $order->getPeriod(),
+                            'taxed' => $taxed,
+                            'type' => \Model_InvoiceItem::TYPE_ORDER,
+                            'rel_id' => $order->getId(),
+                            'task' => \Model_InvoiceItem::TASK_ACTIVATE,
+                        ];
+                    } else {
+                        foreach ($pricedCharge['lines'] as $pricedLine) {
+                            $activates = (bool) $pricedLine['activate'];
+                            $invoice_items[] = [
+                                'title' => $activates ? $order->getTitle() : $pricedLine['title'],
+                                'price' => \Box\Mod\Product\PricedOptionEngine::centsToAmount((int) $pricedLine['unit_cents']),
+                                'quantity' => $pricedLine['quantity'],
+                                'unit' => $pricedLine['billing'] === 'setup' ? 'service' : $order->getUnit(),
+                                'period' => $pricedLine['billing'] === 'recurring' ? $order->getPeriod() : null,
+                                'taxed' => $taxed,
+                                'type' => $activates ? \Model_InvoiceItem::TYPE_ORDER : \Model_InvoiceItem::TYPE_CUSTOM,
+                                'rel_id' => $order->getId(),
+                                'task' => $activates ? \Model_InvoiceItem::TASK_ACTIVATE : \Model_InvoiceItem::TASK_VOID,
+                            ];
+                        }
+                    }
 
                     if ($order->getDiscount() > 0) {
                         $invoice_items[] = [
@@ -981,7 +1005,22 @@ class Service implements InjectionAwareInterface
                         ];
                     }
 
-                    if ($item['setup_price'] > 0) {
+                    if ($pricedCharge !== null && (float) ($item['discount_setup'] ?? 0) > 0) {
+                        $discountSetupCents = \Box\Mod\Product\PricedOptionEngine::convertCents(
+                            \Box\Mod\Product\PricedOptionEngine::amountToCents((float) $item['discount_setup']),
+                            $currency->getConversionRateRaw()
+                        );
+                        $invoice_items[] = [
+                            'title' => __trans('Discount: :product', [':product' => $order->getTitle()]),
+                            'price' => \Box\Mod\Product\PricedOptionEngine::centsToAmount(-$discountSetupCents),
+                            'quantity' => 1,
+                            'unit' => 'discount',
+                            'rel_id' => $order->getId(),
+                            'taxed' => $taxed,
+                        ];
+                    }
+
+                    if ($pricedCharge === null && $item['setup_price'] > 0) {
                         $setup_price = ($item['setup_price'] * $currency->getConversionRate()) - ($item['discount_setup'] * $currency->getConversionRate());
                         $invoice_items[] = [
                             'title' => __trans(':product setup', [':product' => $order->getTitle()]),
@@ -1218,5 +1257,30 @@ class Service implements InjectionAwareInterface
         }
 
         return [$discount_price, $discount_setup];
+    }
+
+    /**
+     * Reprice a cart line from its server snapshot and the cart currency rate.
+     * Client rate and price fields inside the snapshot are not used; the USD
+     * cents captured from the catalog are converted with the currency row.
+     *
+     * @param array<string, mixed> $item
+     *
+     * @return array<string, mixed>|null
+     */
+    private function pricedOptionCharge(array $item, Currency $currency): ?array
+    {
+        $snapshot = \Box\Mod\Product\PricedOptionEngine::decodeSnapshot($item[\Box\Mod\Product\PricedOptionEngine::SNAPSHOT_KEY] ?? null);
+        if ($snapshot === null) {
+            return null;
+        }
+        unset($snapshot['charged']);
+
+        return \Box\Mod\Product\PricedOptionEngine::charge(
+            $snapshot,
+            $currency->getCode(),
+            $currency->getConversionRateRaw(),
+            max(1, (int) ($item['quantity'] ?? 1))
+        );
     }
 }

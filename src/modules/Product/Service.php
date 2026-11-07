@@ -34,6 +34,8 @@ use FOSSBilling\PaginationOptions;
 
 class Service implements InjectionAwareInterface
 {
+    private bool $pricedOptionCatalogUnavailable = false;
+
     final public const string CUSTOM = 'custom';
     final public const string LICENSE = 'license';
     final public const string ADDON = 'addon';
@@ -202,6 +204,8 @@ class Service implements InjectionAwareInterface
 
             'price_starting_from' => $starting_from,
             'icon_url' => $model->getIconUrl(),
+            'orderable' => !$model->isStockControl() || $model->getQuantityInStock() >= 1,
+            'priced_options' => $this->publicPricedOptions($model),
 
             // stock control
             'allow_quantity_select' => $model->isAllowQuantitySelect(),
@@ -350,7 +354,7 @@ class Service implements InjectionAwareInterface
             $service->validateCustomForm($config, $this->getProductValidationData($product));
         }
 
-        return $config;
+        return $this->attachPricedOptionSnapshot($product, PricedOptionEngine::stripClientMoney($config));
     }
 
     /**
@@ -1193,6 +1197,7 @@ class Service implements InjectionAwareInterface
         $configValue = $item instanceof CartProduct ? $item->getConfig() : $item->config;
         $product = $this->findProductById((int) $productId);
         $config = json_decode($configValue ?? '', true) ?? [];
+        $config = $this->attachPricedOptionSnapshot($product, $config);
         $line = $this->getProductOrderLineConfig($product, $config);
 
         return [
@@ -1847,6 +1852,17 @@ class Service implements InjectionAwareInterface
 
     public function getProductSetupPrice(Product $product, ?array $config = null): float
     {
+        $base = $this->calculateBaseProductSetupPrice($product, $config);
+        if ($this->loadPricedOptionCatalog($product) === []) {
+            return $base;
+        }
+        $quote = $this->pricedOptionQuote($product, $config, 0, PricedOptionEngine::amountToCents($base));
+
+        return (float) PricedOptionEngine::centsToAmount($quote['setup_cents'] ?? PricedOptionEngine::amountToCents($base));
+    }
+
+    public function calculateBaseProductSetupPrice(Product $product, ?array $config = null): float
+    {
         if ($product->getType() === self::DOMAIN) {
             return 0.0;
         }
@@ -1872,6 +1888,17 @@ class Service implements InjectionAwareInterface
     }
 
     public function getProductPrice(Product $product, ?array $config = null): float|int|string
+    {
+        $base = $this->calculateBaseProductPrice($product, $config);
+        if ($this->loadPricedOptionCatalog($product) === []) {
+            return $base;
+        }
+        $quote = $this->pricedOptionQuote($product, $config, PricedOptionEngine::amountToCents($base), 0);
+
+        return (float) PricedOptionEngine::centsToAmount($quote['recurring_cents'] ?? PricedOptionEngine::amountToCents($base));
+    }
+
+    public function calculateBaseProductPrice(Product $product, ?array $config = null): float|int|string
     {
         if ($product->getType() === self::DOMAIN) {
             return $this->getDomainProductPrice($config ?? []);
@@ -1899,6 +1926,206 @@ class Service implements InjectionAwareInterface
         }
 
         throw new \FOSSBilling\InformationException('Product :id has an invalid pricing type. Please contact the administrator.', [':id' => $product->getId()]);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    public function quotePricedOptions(Product $product, array $data): array
+    {
+        $data = PricedOptionEngine::stripClientMoney($data);
+        $catalog = $this->loadPricedOptionCatalog($product);
+        if ($catalog === []) {
+            throw new \FOSSBilling\InformationException('该产品没有可计价的配置项');
+        }
+
+        $currency = $this->resolveQuoteCurrency(isset($data['currency']) ? (string) $data['currency'] : null);
+        $baseCurrency = $this->pricedOptionBaseCurrency();
+        $config = [
+            'period' => (string) ($data['period'] ?? '1M'),
+            'options' => $data['options'] ?? [],
+        ];
+        $base = $this->calculateBaseProductPrice($product, $config);
+        $baseSetup = $this->calculateBaseProductSetupPrice($product, $config);
+        $quote = PricedOptionEngine::quote(
+            $catalog,
+            $config,
+            PricedOptionEngine::amountToCents($base),
+            PricedOptionEngine::amountToCents($baseSetup),
+            $baseCurrency
+        );
+        $charged = PricedOptionEngine::charge($quote, $currency['code'], $currency['rate'], 1);
+        $quantity = max(1, (int) ($data['quantity'] ?? 1));
+
+        return [
+            'currency' => $currency['code'],
+            'rate' => $currency['rate'],
+            'period' => $quote['period'],
+            'base_recurring' => PricedOptionEngine::centsToAmount($charged['lines'][0]['unit_cents']),
+            'recurring' => PricedOptionEngine::centsToAmount($charged['unit_recurring_cents']),
+            'setup' => PricedOptionEngine::centsToAmount($charged['setup_cents']),
+            'due_now' => PricedOptionEngine::centsToAmount($charged['unit_recurring_cents'] + $charged['setup_cents']),
+            'lines' => array_map(static fn (array $line): array => [
+                'label' => $line['title'],
+                'amount' => PricedOptionEngine::centsToAmount((int) $line['unit_cents']),
+                'billing' => $line['billing'],
+            ], $charged['lines']),
+            'selections' => $quote['selections'],
+            'purchasable' => $this->isStockAvailable($product, $quantity),
+            'purchase_block_reason' => $this->isStockAvailable($product, $quantity) ? null : '待资源就绪，暂不可订购',
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     *
+     * @return array<string, mixed>
+     */
+    private function attachPricedOptionSnapshot(Product $product, array $config): array
+    {
+        $catalog = $this->loadPricedOptionCatalog($product);
+        if ($catalog === []) {
+            return $config;
+        }
+
+        $base = $this->calculateBaseProductPrice($product, $config);
+        $baseSetup = $this->calculateBaseProductSetupPrice($product, $config);
+        $quote = PricedOptionEngine::quote(
+            $catalog,
+            $config,
+            PricedOptionEngine::amountToCents($base),
+            PricedOptionEngine::amountToCents($baseSetup),
+            $this->pricedOptionBaseCurrency()
+        );
+        $snapshot = PricedOptionEngine::snapshotFromQuote($quote);
+        $config['options'] = $quote['normalized_options'];
+        $config[PricedOptionEngine::SNAPSHOT_KEY] = json_encode($snapshot, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $config[PricedOptionEngine::SUMMARY_KEY] = PricedOptionEngine::summary($snapshot);
+
+        return $config;
+    }
+
+    /**
+     * @param array<string, mixed>|null $config
+     *
+     * @return array<string, mixed>|null
+     */
+    private function pricedOptionQuote(Product $product, ?array $config, int $baseRecurringCents, int $baseSetupCents): ?array
+    {
+        $catalog = $this->loadPricedOptionCatalog($product);
+        if ($catalog === []) {
+            return null;
+        }
+
+        return PricedOptionEngine::quote($catalog, $config ?? [], $baseRecurringCents, $baseSetupCents, $this->pricedOptionBaseCurrency());
+    }
+
+    /**
+     * @return array{groups: list<array<string, mixed>>, currency: string}
+     */
+    private function publicPricedOptions(Product $product): array
+    {
+        $groups = [];
+        foreach ($this->loadPricedOptionCatalog($product)['groups'] ?? [] as $group) {
+            if (!is_array($group) || !($group['verified'] ?? false)) {
+                continue;
+            }
+            $values = [];
+            foreach ($group['values'] as $value) {
+                if (!is_array($value)) {
+                    continue;
+                }
+                $values[] = [
+                    'code' => $value['code'],
+                    'label' => $value['label'],
+                    'monthly_amount' => PricedOptionEngine::centsToAmount((int) $value['monthly_cents']),
+                    'setup_amount' => PricedOptionEngine::centsToAmount((int) $value['setup_cents']),
+                    'is_default' => (bool) $value['is_default'],
+                    'in_stock' => !($value['stock_control'] ?? false) || (int) ($value['quantity_in_stock'] ?? 0) > 0,
+                ];
+            }
+            $groups[] = [
+                'code' => $group['code'],
+                'label' => $group['label'],
+                'values' => $values,
+            ];
+        }
+
+        return [
+            'currency' => 'USD',
+            'groups' => $groups,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function loadPricedOptionCatalog(Product $product): array
+    {
+        $productId = $product->getId();
+        if ($this->pricedOptionCatalogUnavailable || $productId === null || $this->di === null || !isset($this->di['em'])) {
+            return [];
+        }
+
+        try {
+            $repository = $this->di['em']->getRepository(Entity\ProductOptionGroup::class);
+        } catch (\Throwable) {
+            return [];
+        }
+        if (!$repository instanceof Repository\ProductOptionGroupRepository) {
+            return [];
+        }
+
+        try {
+            return $repository->catalogForProduct($productId);
+        } catch (\Throwable $exception) {
+            $this->pricedOptionCatalogUnavailable = true;
+            if (isset($this->di['logger'])) {
+                $this->di['logger']->warning('Priced option catalog unavailable: ' . $exception->getMessage());
+            }
+
+            return [];
+        }
+    }
+
+    protected function pricedOptionBaseCurrency(): string
+    {
+        if ($this->di === null || !isset($this->di['mod_service'])) {
+            return 'USD';
+        }
+
+        try {
+            $currency = $this->di['mod_service']('currency')->getCurrencyRepository()->findDefault();
+            if ($currency instanceof \Box\Mod\Currency\Entity\Currency) {
+                return $currency->getCode();
+            }
+        } catch (\Throwable) {
+            return 'USD';
+        }
+
+        return 'USD';
+    }
+
+    /**
+     * @return array{code: string, rate: string}
+     */
+    private function resolveQuoteCurrency(?string $requestedCode): array
+    {
+        $repository = $this->di['mod_service']('currency')->getCurrencyRepository();
+        $requestedCode = strtoupper(trim((string) $requestedCode));
+        $currency = $requestedCode === ''
+            ? $repository->findDefault()
+            : $repository->findOneByCode($requestedCode);
+        if (!$currency instanceof \Box\Mod\Currency\Entity\Currency) {
+            throw new \FOSSBilling\InformationException('币种与配置价格不匹配');
+        }
+
+        return [
+            'code' => $currency->getCode(),
+            'rate' => $currency->getConversionRateRaw(),
+        ];
     }
 
     private function getProductPaymentPeriodKey(\Box_Period $period): string

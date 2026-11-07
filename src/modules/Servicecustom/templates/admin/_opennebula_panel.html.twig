@@ -1,0 +1,25 @@
+{% if order.meta is defined or true %}
+{% set vm = admin.servicecustom_info({ 'order_id': order.id }) %}
+<div class="card-body border-top">
+  <h3 class="card-title">OpenNebula 虚拟机</h3>
+  {% if not vm.provisioned %}
+    <div class="alert alert-secondary">未关联虚拟机（订单激活后自动开通）</div>
+  {% else %}
+  <table class="table table-sm">
+    <tr><td>VM ID</td><td>{{ vm.vmid }}</td></tr>
+    <tr><td>状态</td><td>{{ vm.state }}</td></tr>
+    <tr><td>IP</td><td>{{ vm.ip }}</td></tr>
+    <tr><td>root 密码</td><td><code>{{ vm.password }}</code></td></tr>
+    <tr><td>规格</td><td>{{ vm.vcpu }} vCPU / {{ vm.memory }} MB / {{ vm.disk }} GB</td></tr>
+  </table>
+  <div class="d-flex flex-wrap gap-2">
+  {% for m, label in {'start':'开机','stop':'关机','poweroff':'强制关机','reboot':'重启','hardreboot':'强制重启','reinstall':'重装系统'} %}
+    <form method="post" action="{{ ('servicecustom/' ~ m)|api_url }}" {{ fb_api_form({ 'reload': true, 'message': label ~ ' 已执行' }) }}>
+      <input type="hidden" name="order_id" value="{{ order.id }}">
+      <button class="btn btn-{% if m == 'reinstall' %}danger{% else %}primary{% endif %} btn-sm" type="submit">{{ label }}</button>
+    </form>
+  {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endif %}

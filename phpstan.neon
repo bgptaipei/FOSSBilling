@@ -21,6 +21,9 @@ parameters:
 		- src/library/Server/Manager/Whm.php
 		- src/data/cache (?)
 		- '*/tests/*'
+		# Deployment OpenNebula bridge, copied as-is. It is not part of the priced-option
+		# change and is loaded by require, not by the Doctrine/module type model.
+		- src/library/Plugin/OpenNebula
 	universalObjectCratesClasses:
 		- RedBeanPHP\SimpleModel
 		- RedBeanPHP\OODBBean

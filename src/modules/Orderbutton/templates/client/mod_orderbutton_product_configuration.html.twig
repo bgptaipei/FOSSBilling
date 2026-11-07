@@ -85,13 +85,99 @@
                         {{ product_details }}
                     {% endif %}
 
+                    {% set cart_currency = guest.cart_get_currency %}
+                    {% if product.priced_options is defined and product.priced_options.groups %}
+                        <div id="priced-options" class="mt-3" data-product-id="{{ product.id }}" data-currency="{{ cart_currency.code }}">
+                            <h4 class="mt-4 mb-1"><strong>配置选项</strong></h4>
+                            <p class="text-muted small mb-3">价格为美元目录价。合计由服务器计算，开通费只在首次账单收取，续费不含开通费。</p>
+                            {% for group in product.priced_options.groups %}
+                                <div class="row mt-3">
+                                    <div class="col-12 col-md-4 col-xl-3">
+                                        <label class="form-label" for="priced-option-{{ group.code }}">{{ group.label }}</label>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-select priced-option-select" name="options[{{ group.code }}]" id="priced-option-{{ group.code }}" data-group="{{ group.code }}">
+                                            {% for value in group.values %}
+                                                <option value="{{ value.code }}"{% if value.is_default %} selected{% endif %}{% if not value.in_stock %} disabled{% endif %}>
+                                                    {{- value.label -}}
+                                                    {%- if value.monthly_amount != '0.00' %}（每月 +US${{ value.monthly_amount }}）{% endif -%}
+                                                    {%- if value.setup_amount != '0.00' %}（开通费 +US${{ value.setup_amount }}）{% endif -%}
+                                                    {%- if not value.in_stock %}（无库存）{% endif -%}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div id="priced-option-quote" class="alert alert-light border mt-3 mb-0" role="status">正在计算价格…</div>
+                        </div>
+                    {% elseif product.slug starts with 'mc-' %}
+                        <div class="alert alert-secondary mt-3 mb-0" role="status">可选配置尚未核实，暂不能按配置加价。未核实项目不会以 0 元选项出售。</div>
+                    {% endif %}
+
                     {{ include('mod_orderbutton_addons.html.twig', product) }}
 
                     <input type="hidden" name="multiple" value="1" />
                     <input type="hidden" name="id" value="{{ product.id }}" />
                     <div class="mt-2 mb-0">
+                        {% if product.slug starts with 'mc-' or (product.orderable is defined and not product.orderable) %}
+                        <div class="alert alert-secondary mb-0" role="status">待资源就绪，暂不可订购。本站暂无可履约的对应资源，开放前不接受下单。</div>
+                        {% else %}
                         <button type="submit" class="btn btn-primary" id="config-next">{{ 'Next'|trans }}</button>
+                        {% endif %}
                     </div>
+                    {% if product.priced_options is defined and product.priced_options.groups %}
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const root = document.getElementById('priced-options');
+                            const output = document.getElementById('priced-option-quote');
+                            if (!root || !output || typeof FOSSBilling === 'undefined') {
+                                return;
+                            }
+                            const productId = Number(root.dataset.productId);
+                            const currency = root.dataset.currency;
+                            const esc = function (value) {
+                                return String(value ?? '').replace(/[&<>"']/g, function (ch) {
+                                    return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch];
+                                });
+                            };
+                            const refresh = function () {
+                                const options = {};
+                                root.querySelectorAll('.priced-option-select').forEach(function (select) {
+                                    options[select.dataset.group] = select.value;
+                                });
+                                const period = document.getElementById('period-selector');
+                                FOSSBilling.api.guest.post('product/priced_options_quote', {
+                                    id: productId,
+                                    currency: currency,
+                                    period: period ? period.value : '1M',
+                                    options: options
+                                }, function (result) {
+                                    const rows = (result.lines || []).map(function (line) {
+                                        const kind = line.billing === 'setup' ? '一次性开通费' : '周期费用';
+                                        return '<div class="d-flex justify-content-between"><span>' + esc(line.label) + '</span><span>' + esc(line.amount) + ' ' + esc(result.currency) + '（' + kind + '）</span></div>';
+                                    }).join('');
+                                    output.innerHTML = rows
+                                        + '<hr class="my-2">'
+                                        + '<div class="d-flex justify-content-between"><strong>周期费用合计</strong><strong>' + esc(result.recurring) + ' ' + esc(result.currency) + '</strong></div>'
+                                        + '<div class="d-flex justify-content-between"><strong>一次性开通费</strong><strong>' + esc(result.setup) + ' ' + esc(result.currency) + '</strong></div>'
+                                        + '<div class="d-flex justify-content-between"><strong>本期应付</strong><strong>' + esc(result.due_now) + ' ' + esc(result.currency) + '</strong></div>'
+                                        + (result.purchasable ? '' : '<div class="mt-2">待资源就绪，暂不可订购。可以预览价格，不能加入购物车。</div>');
+                                }, function (error) {
+                                    output.textContent = error && error.message ? error.message : '价格计算失败';
+                                });
+                            };
+                            root.querySelectorAll('.priced-option-select').forEach(function (select) {
+                                select.addEventListener('change', refresh);
+                            });
+                            const period = document.getElementById('period-selector');
+                            if (period) {
+                                period.addEventListener('change', refresh);
+                            }
+                            refresh();
+                        });
+                    </script>
+                    {% endif %}
                 </form>
             </div>
         </div>

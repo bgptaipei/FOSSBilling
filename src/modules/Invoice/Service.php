@@ -1629,7 +1629,43 @@ class Service implements InjectionAwareInterface
         $this->setInvoiceDefaults($proforma);
 
         $invoiceItemService = $this->di['mod_service']('Invoice', 'InvoiceItem');
-        $invoiceItemService->generateFromOrder($proforma, $order, \Model_InvoiceItem::TASK_RENEW, $price, $line);
+        $renewalLines = \Box\Mod\Product\PricedOptionEngine::renewalLines(
+            json_decode($order->config ?? '', true) ?: [],
+            \Box\Mod\Product\PricedOptionEngine::amountToCents((float) $price),
+            (string) $order->currency
+        );
+        if ($renewalLines === null) {
+            $invoiceItemService->generateFromOrder($proforma, $order, \Model_InvoiceItem::TASK_RENEW, $price, $line);
+        } else {
+            $first = true;
+            foreach ($renewalLines as $renewalLine) {
+                if ($first) {
+                    $invoiceItemService->generateFromOrder(
+                        $proforma,
+                        $order,
+                        \Model_InvoiceItem::TASK_RENEW,
+                        \Box\Mod\Product\PricedOptionEngine::centsToAmount((int) $renewalLine['unit_cents']),
+                        $line,
+                        (float) $price
+                    );
+                    $first = false;
+
+                    continue;
+                }
+                $clientService = $this->di['mod_service']('client');
+                $invoiceItemService->addNew($proforma, [
+                    'title' => (string) $renewalLine['title'],
+                    'price' => \Box\Mod\Product\PricedOptionEngine::centsToAmount((int) $renewalLine['unit_cents']),
+                    'quantity' => $line['quantity'] ?? $order->quantity,
+                    'unit' => $order->unit,
+                    'period' => $order->period,
+                    'taxed' => $clientService->isClientTaxable($client),
+                    'type' => \Model_InvoiceItem::TYPE_CUSTOM,
+                    'rel_id' => $order->id,
+                    'task' => \Model_InvoiceItem::TASK_VOID,
+                ]);
+            }
+        }
 
         // invoice due date
         if ($due_days > 0) {

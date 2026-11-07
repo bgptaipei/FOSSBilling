@@ -1,0 +1,4837 @@
+{
+  "currency": "USD",
+  "periods": [
+    "1M"
+  ],
+  "source": "handoff detailed-findings hk_cloud + hk_cloud_common_addons, checked 2026-11-07",
+  "note": "Only these seven products have a verified configurator. Option surcharges are monthly USD cents. AntiDDoS setup is separate and is not folded into the monthly price. Windows is absent on source pid 119 and 60.",
+  "products": [
+    {
+      "slug": "mc-hk-gia-cloud-basic",
+      "title": "HK-GIA-Cloud-Basic",
+      "source_pid": 119,
+      "verified": true,
+      "base_monthly_cents": 6900,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "GIA100M,1IP; vCPU 1 incl,2 +30,4 +40; RAM2G; OS disk 10G; no data disk",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "gia-100m",
+              "label": "GIA 100Mbps（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100101
+            }
+          ],
+          "id": 1001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-1",
+              "label": "1 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100201
+            }
+          ],
+          "id": 1002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-1",
+              "label": "1 vCPU（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100301
+            },
+            {
+              "code": "vcpu-2",
+              "label": "2 vCPU",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 100302
+            },
+            {
+              "code": "vcpu-4",
+              "label": "4 vCPU",
+              "monthly_cents": 4000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 100303
+            }
+          ],
+          "id": 1003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-2g",
+              "label": "2 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100401
+            }
+          ],
+          "id": 1004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-10g",
+              "label": "10 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100501
+            }
+          ],
+          "id": 1005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-none",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100601
+            }
+          ],
+          "id": 1006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 100702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 100703
+            }
+          ],
+          "id": 1007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 100802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 100803
+            }
+          ],
+          "id": 1008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 100901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 100902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 100903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 100904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 100905
+            }
+          ],
+          "id": 1009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 101001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 101002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 101003
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 101004
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 101005
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 101006
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 101007
+            }
+          ],
+          "id": 1010
+        }
+      ]
+    },
+    {
+      "slug": "mc-hk-cia-hpc-amd",
+      "title": "HK-CIA-HPC-AMD",
+      "source_pid": 60,
+      "verified": true,
+      "base_monthly_cents": 8800,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "CIA; BW 10M incl,20M +70,40M +124.30; IP1 incl,2..5 +4.30/step; vCPU 4 incl,8 +15,16 +32,32 +200 (AMD EPYC); RAM 4G,8G +15,16G +43,32G +100,64G +215; OS disk 50G Nvme,90G +15; data N/A,50G +15,100G +30,200G +60,500G +200",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "cia-10m",
+              "label": "CIA 10Mbps（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200101
+            },
+            {
+              "code": "cia-20m",
+              "label": "CIA 20Mbps",
+              "monthly_cents": 7000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200102
+            },
+            {
+              "code": "cia-40m",
+              "label": "CIA 40Mbps",
+              "monthly_cents": 12430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200103
+            }
+          ],
+          "id": 2001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-1",
+              "label": "1 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200201
+            },
+            {
+              "code": "ip-2",
+              "label": "2 个",
+              "monthly_cents": 430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200202
+            },
+            {
+              "code": "ip-3",
+              "label": "3 个",
+              "monthly_cents": 860,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200203
+            },
+            {
+              "code": "ip-4",
+              "label": "4 个",
+              "monthly_cents": 1290,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 200204
+            },
+            {
+              "code": "ip-5",
+              "label": "5 个",
+              "monthly_cents": 1720,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 200205
+            }
+          ],
+          "id": 2002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-4",
+              "label": "4 vCPU（AMD EPYC，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200301
+            },
+            {
+              "code": "vcpu-8",
+              "label": "8 vCPU（AMD EPYC）",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200302
+            },
+            {
+              "code": "vcpu-16",
+              "label": "16 vCPU（AMD EPYC）",
+              "monthly_cents": 3200,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200303
+            },
+            {
+              "code": "vcpu-32",
+              "label": "32 vCPU（AMD EPYC）",
+              "monthly_cents": 20000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 200304
+            }
+          ],
+          "id": 2003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-4g",
+              "label": "4 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200401
+            },
+            {
+              "code": "ram-8g",
+              "label": "8 GB",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200402
+            },
+            {
+              "code": "ram-16g",
+              "label": "16 GB",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200403
+            },
+            {
+              "code": "ram-32g",
+              "label": "32 GB",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 200404
+            },
+            {
+              "code": "ram-64g",
+              "label": "64 GB",
+              "monthly_cents": 21500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 200405
+            }
+          ],
+          "id": 2004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-50g",
+              "label": "50 GB NVMe（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200501
+            },
+            {
+              "code": "sys-90g",
+              "label": "90 GB NVMe",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200502
+            }
+          ],
+          "id": 2005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-none",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200601
+            },
+            {
+              "code": "data-50g",
+              "label": "50 GB",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200602
+            },
+            {
+              "code": "data-100g",
+              "label": "100 GB",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200603
+            },
+            {
+              "code": "data-200g",
+              "label": "200 GB",
+              "monthly_cents": 6000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 200604
+            },
+            {
+              "code": "data-500g",
+              "label": "500 GB",
+              "monthly_cents": 20000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 200605
+            }
+          ],
+          "id": 2006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200703
+            }
+          ],
+          "id": 2007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200803
+            }
+          ],
+          "id": 2008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 200901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 200902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 200903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 200904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 200905
+            }
+          ],
+          "id": 2009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 201001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 201002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 201003
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 201004
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 201005
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 201006
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 201007
+            }
+          ],
+          "id": 2010
+        }
+      ]
+    },
+    {
+      "slug": "mc-hk-gia-cloud-intel",
+      "title": "HK-GIA-Cloud-Intel",
+      "source_pid": 90,
+      "verified": true,
+      "base_monthly_cents": 16000,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "GIA; BW 100M,200M +124.30,500M +233.10; IP 2..8; vCPU 8 Platinum,16 +43,32 +100; RAM16G,32G +100,64G +215; sys 100G,200G +11,500G +26; data 900G,2TB +30,4TB +84",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "gia-100m",
+              "label": "GIA 100Mbps（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300101
+            },
+            {
+              "code": "gia-200m",
+              "label": "GIA 200Mbps",
+              "monthly_cents": 12430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300102
+            },
+            {
+              "code": "gia-500m",
+              "label": "GIA 500Mbps",
+              "monthly_cents": 23310,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300103
+            }
+          ],
+          "id": 3001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-2",
+              "label": "2 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300201
+            },
+            {
+              "code": "ip-3",
+              "label": "3 个",
+              "monthly_cents": 430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300202
+            },
+            {
+              "code": "ip-4",
+              "label": "4 个",
+              "monthly_cents": 860,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300203
+            },
+            {
+              "code": "ip-5",
+              "label": "5 个",
+              "monthly_cents": 1290,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 300204
+            },
+            {
+              "code": "ip-6",
+              "label": "6 个",
+              "monthly_cents": 1720,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 300205
+            },
+            {
+              "code": "ip-7",
+              "label": "7 个",
+              "monthly_cents": 2150,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 300206
+            },
+            {
+              "code": "ip-8",
+              "label": "8 个",
+              "monthly_cents": 2580,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 300207
+            }
+          ],
+          "id": 3002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-8",
+              "label": "8 vCPU（Platinum，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300301
+            },
+            {
+              "code": "vcpu-16",
+              "label": "16 vCPU（Platinum）",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300302
+            },
+            {
+              "code": "vcpu-32",
+              "label": "32 vCPU（Platinum）",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300303
+            }
+          ],
+          "id": 3003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-16g",
+              "label": "16 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300401
+            },
+            {
+              "code": "ram-32g",
+              "label": "32 GB",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300402
+            },
+            {
+              "code": "ram-64g",
+              "label": "64 GB",
+              "monthly_cents": 21500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300403
+            }
+          ],
+          "id": 3004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-100g",
+              "label": "100 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300501
+            },
+            {
+              "code": "sys-200g",
+              "label": "200 GB",
+              "monthly_cents": 1100,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300502
+            },
+            {
+              "code": "sys-500g",
+              "label": "500 GB",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300503
+            }
+          ],
+          "id": 3005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-900g",
+              "label": "900 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300601
+            },
+            {
+              "code": "data-2tb",
+              "label": "2 TB",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300602
+            },
+            {
+              "code": "data-4tb",
+              "label": "4 TB",
+              "monthly_cents": 8400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300603
+            }
+          ],
+          "id": 3006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300703
+            }
+          ],
+          "id": 3007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300803
+            }
+          ],
+          "id": 3008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 300901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 300902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 300903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 300904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 300905
+            }
+          ],
+          "id": 3009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 301001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 301002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 301003
+            },
+            {
+              "code": "windows",
+              "label": "Windows",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 301004
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 301005
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 301006
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 301007
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 80,
+              "id": 301008
+            }
+          ],
+          "id": 3010
+        }
+      ]
+    },
+    {
+      "slug": "mc-hk-cia-cloud-intel",
+      "title": "HK-CIA-Cloud-Intel",
+      "source_pid": 91,
+      "verified": true,
+      "base_monthly_cents": 7500,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "CIA; BW 10M,20M +30,40M +124.30; IP2..8; vCPU 4 E5-2696v4,8 +15,16 +43,32 +100; RAM4G,16G +43,32G +100,64G +215; sys 60G,100G +5,200G +11,500G +26; data 100G,900G +15,2TB +30,4TB +60",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "cia-10m",
+              "label": "CIA 10Mbps（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400101
+            },
+            {
+              "code": "cia-20m",
+              "label": "CIA 20Mbps",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400102
+            },
+            {
+              "code": "cia-40m",
+              "label": "CIA 40Mbps",
+              "monthly_cents": 12430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400103
+            }
+          ],
+          "id": 4001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-2",
+              "label": "2 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400201
+            },
+            {
+              "code": "ip-3",
+              "label": "3 个",
+              "monthly_cents": 430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400202
+            },
+            {
+              "code": "ip-4",
+              "label": "4 个",
+              "monthly_cents": 860,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400203
+            },
+            {
+              "code": "ip-5",
+              "label": "5 个",
+              "monthly_cents": 1290,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 400204
+            },
+            {
+              "code": "ip-6",
+              "label": "6 个",
+              "monthly_cents": 1720,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 400205
+            },
+            {
+              "code": "ip-7",
+              "label": "7 个",
+              "monthly_cents": 2150,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 400206
+            },
+            {
+              "code": "ip-8",
+              "label": "8 个",
+              "monthly_cents": 2580,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 400207
+            }
+          ],
+          "id": 4002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-4",
+              "label": "4 vCPU（E5-2696v4，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400301
+            },
+            {
+              "code": "vcpu-8",
+              "label": "8 vCPU（E5-2696v4）",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400302
+            },
+            {
+              "code": "vcpu-16",
+              "label": "16 vCPU（E5-2696v4）",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400303
+            },
+            {
+              "code": "vcpu-32",
+              "label": "32 vCPU（E5-2696v4）",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 400304
+            }
+          ],
+          "id": 4003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-4g",
+              "label": "4 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400401
+            },
+            {
+              "code": "ram-16g",
+              "label": "16 GB",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400402
+            },
+            {
+              "code": "ram-32g",
+              "label": "32 GB",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400403
+            },
+            {
+              "code": "ram-64g",
+              "label": "64 GB",
+              "monthly_cents": 21500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 400404
+            }
+          ],
+          "id": 4004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-60g",
+              "label": "60 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400501
+            },
+            {
+              "code": "sys-100g",
+              "label": "100 GB",
+              "monthly_cents": 500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400502
+            },
+            {
+              "code": "sys-200g",
+              "label": "200 GB",
+              "monthly_cents": 1100,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400503
+            },
+            {
+              "code": "sys-500g",
+              "label": "500 GB",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 400504
+            }
+          ],
+          "id": 4005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-100g",
+              "label": "100 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400601
+            },
+            {
+              "code": "data-900g",
+              "label": "900 GB",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400602
+            },
+            {
+              "code": "data-2tb",
+              "label": "2 TB",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400603
+            },
+            {
+              "code": "data-4tb",
+              "label": "4 TB",
+              "monthly_cents": 6000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 400604
+            }
+          ],
+          "id": 4006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400703
+            }
+          ],
+          "id": 4007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400803
+            }
+          ],
+          "id": 4008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 400901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 400902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 400903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 400904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 400905
+            }
+          ],
+          "id": 4009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 401001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 401002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 401003
+            },
+            {
+              "code": "windows",
+              "label": "Windows",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 401004
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 401005
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 401006
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 401007
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 80,
+              "id": 401008
+            }
+          ],
+          "id": 4010
+        }
+      ]
+    },
+    {
+      "slug": "mc-hk-gia-cloud-amd",
+      "title": "HK-GIA-Cloud-AMD",
+      "source_pid": 87,
+      "verified": true,
+      "base_monthly_cents": 14400,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "GIA; BW 100M,200M +124.30,500M +233.10; IP2..8; vCPU 8 EPYC,16 +43,32 +100; RAM16G,32G +100,64G +215; sys 100G,200G +11,500G +26; data 900G,2TB +30,4TB +60,8TB +180,16TB +360",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "gia-100m",
+              "label": "GIA 100Mbps（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500101
+            },
+            {
+              "code": "gia-200m",
+              "label": "GIA 200Mbps",
+              "monthly_cents": 12430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500102
+            },
+            {
+              "code": "gia-500m",
+              "label": "GIA 500Mbps",
+              "monthly_cents": 23310,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500103
+            }
+          ],
+          "id": 5001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-2",
+              "label": "2 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500201
+            },
+            {
+              "code": "ip-3",
+              "label": "3 个",
+              "monthly_cents": 430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500202
+            },
+            {
+              "code": "ip-4",
+              "label": "4 个",
+              "monthly_cents": 860,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500203
+            },
+            {
+              "code": "ip-5",
+              "label": "5 个",
+              "monthly_cents": 1290,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 500204
+            },
+            {
+              "code": "ip-6",
+              "label": "6 个",
+              "monthly_cents": 1720,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 500205
+            },
+            {
+              "code": "ip-7",
+              "label": "7 个",
+              "monthly_cents": 2150,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 500206
+            },
+            {
+              "code": "ip-8",
+              "label": "8 个",
+              "monthly_cents": 2580,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 500207
+            }
+          ],
+          "id": 5002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-8",
+              "label": "8 vCPU（AMD EPYC，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500301
+            },
+            {
+              "code": "vcpu-16",
+              "label": "16 vCPU（AMD EPYC）",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500302
+            },
+            {
+              "code": "vcpu-32",
+              "label": "32 vCPU（AMD EPYC）",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500303
+            }
+          ],
+          "id": 5003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-16g",
+              "label": "16 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500401
+            },
+            {
+              "code": "ram-32g",
+              "label": "32 GB",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500402
+            },
+            {
+              "code": "ram-64g",
+              "label": "64 GB",
+              "monthly_cents": 21500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500403
+            }
+          ],
+          "id": 5004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-100g",
+              "label": "100 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500501
+            },
+            {
+              "code": "sys-200g",
+              "label": "200 GB",
+              "monthly_cents": 1100,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500502
+            },
+            {
+              "code": "sys-500g",
+              "label": "500 GB",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500503
+            }
+          ],
+          "id": 5005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-900g",
+              "label": "900 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500601
+            },
+            {
+              "code": "data-2tb",
+              "label": "2 TB",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500602
+            },
+            {
+              "code": "data-4tb",
+              "label": "4 TB",
+              "monthly_cents": 6000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500603
+            },
+            {
+              "code": "data-8tb",
+              "label": "8 TB",
+              "monthly_cents": 18000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 500604
+            },
+            {
+              "code": "data-16tb",
+              "label": "16 TB",
+              "monthly_cents": 36000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 500605
+            }
+          ],
+          "id": 5006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500703
+            }
+          ],
+          "id": 5007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500803
+            }
+          ],
+          "id": 5008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 500901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 500902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 500903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 500904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 500905
+            }
+          ],
+          "id": 5009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 501001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 501002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 501003
+            },
+            {
+              "code": "windows",
+              "label": "Windows",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 501004
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 501005
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 501006
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 501007
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 80,
+              "id": 501008
+            }
+          ],
+          "id": 5010
+        }
+      ]
+    },
+    {
+      "slug": "mc-hk-cdia-cloud-amd",
+      "title": "HK-CDIA-Cloud-AMD",
+      "source_pid": 88,
+      "verified": true,
+      "base_monthly_cents": 14400,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "CDIA 50M fixed; IP2..8; vCPU 8 EPYC,16 +22,32 +100; RAM16G,32G +100,64G +215; sys 100G,200G +11,500G +26; data 900G,2TB +30,4TB +60",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "cdia-50m",
+              "label": "CDIA 50Mbps（固定，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600101
+            }
+          ],
+          "id": 6001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-2",
+              "label": "2 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600201
+            },
+            {
+              "code": "ip-3",
+              "label": "3 个",
+              "monthly_cents": 430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600202
+            },
+            {
+              "code": "ip-4",
+              "label": "4 个",
+              "monthly_cents": 860,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600203
+            },
+            {
+              "code": "ip-5",
+              "label": "5 个",
+              "monthly_cents": 1290,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 600204
+            },
+            {
+              "code": "ip-6",
+              "label": "6 个",
+              "monthly_cents": 1720,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 600205
+            },
+            {
+              "code": "ip-7",
+              "label": "7 个",
+              "monthly_cents": 2150,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 600206
+            },
+            {
+              "code": "ip-8",
+              "label": "8 个",
+              "monthly_cents": 2580,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 600207
+            }
+          ],
+          "id": 6002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-8",
+              "label": "8 vCPU（AMD EPYC，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600301
+            },
+            {
+              "code": "vcpu-16",
+              "label": "16 vCPU（AMD EPYC）",
+              "monthly_cents": 2200,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600302
+            },
+            {
+              "code": "vcpu-32",
+              "label": "32 vCPU（AMD EPYC）",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600303
+            }
+          ],
+          "id": 6003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-16g",
+              "label": "16 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600401
+            },
+            {
+              "code": "ram-32g",
+              "label": "32 GB",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600402
+            },
+            {
+              "code": "ram-64g",
+              "label": "64 GB",
+              "monthly_cents": 21500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600403
+            }
+          ],
+          "id": 6004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-100g",
+              "label": "100 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600501
+            },
+            {
+              "code": "sys-200g",
+              "label": "200 GB",
+              "monthly_cents": 1100,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600502
+            },
+            {
+              "code": "sys-500g",
+              "label": "500 GB",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600503
+            }
+          ],
+          "id": 6005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-900g",
+              "label": "900 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600601
+            },
+            {
+              "code": "data-2tb",
+              "label": "2 TB",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600602
+            },
+            {
+              "code": "data-4tb",
+              "label": "4 TB",
+              "monthly_cents": 6000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600603
+            }
+          ],
+          "id": 6006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600703
+            }
+          ],
+          "id": 6007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600803
+            }
+          ],
+          "id": 6008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 600901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 600902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 600903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 600904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 600905
+            }
+          ],
+          "id": 6009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 601001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 601002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 601003
+            },
+            {
+              "code": "windows",
+              "label": "Windows",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 601004
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 601005
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 601006
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 601007
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 80,
+              "id": 601008
+            }
+          ],
+          "id": 6010
+        }
+      ]
+    },
+    {
+      "slug": "mc-hk-cia-cloud-amd",
+      "title": "HK-CIA-Cloud-AMD",
+      "source_pid": 84,
+      "verified": true,
+      "base_monthly_cents": 6500,
+      "currency": "USD",
+      "periods": [
+        "1M"
+      ],
+      "source_cfg": "CIA; BW 10M,20M +30,40M +124.30,100M +999; IP2..8; vCPU 4,8 +15,16 +43,32 +100,64 +445; RAM4G,16G +43,32G +100,64G +215; sys 60G,100G +15; data 100G,900G +15,2TB +30,4TB +60",
+      "groups": [
+        {
+          "code": "bandwidth",
+          "label": "带宽",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 10,
+          "values": [
+            {
+              "code": "cia-10m",
+              "label": "CIA 10Mbps（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700101
+            },
+            {
+              "code": "cia-20m",
+              "label": "CIA 20Mbps",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700102
+            },
+            {
+              "code": "cia-40m",
+              "label": "CIA 40Mbps",
+              "monthly_cents": 12430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700103
+            },
+            {
+              "code": "cia-100m",
+              "label": "CIA 100Mbps",
+              "monthly_cents": 99900,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 700104
+            }
+          ],
+          "id": 7001
+        },
+        {
+          "code": "ip",
+          "label": "IP 数量",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 20,
+          "values": [
+            {
+              "code": "ip-2",
+              "label": "2 个（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700201
+            },
+            {
+              "code": "ip-3",
+              "label": "3 个",
+              "monthly_cents": 430,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700202
+            },
+            {
+              "code": "ip-4",
+              "label": "4 个",
+              "monthly_cents": 860,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700203
+            },
+            {
+              "code": "ip-5",
+              "label": "5 个",
+              "monthly_cents": 1290,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 700204
+            },
+            {
+              "code": "ip-6",
+              "label": "6 个",
+              "monthly_cents": 1720,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 700205
+            },
+            {
+              "code": "ip-7",
+              "label": "7 个",
+              "monthly_cents": 2150,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 700206
+            },
+            {
+              "code": "ip-8",
+              "label": "8 个",
+              "monthly_cents": 2580,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 700207
+            }
+          ],
+          "id": 7002
+        },
+        {
+          "code": "vcpu",
+          "label": "vCPU",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 30,
+          "values": [
+            {
+              "code": "vcpu-4",
+              "label": "4 vCPU（AMD EPYC，含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700301
+            },
+            {
+              "code": "vcpu-8",
+              "label": "8 vCPU（AMD EPYC）",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700302
+            },
+            {
+              "code": "vcpu-16",
+              "label": "16 vCPU（AMD EPYC）",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700303
+            },
+            {
+              "code": "vcpu-32",
+              "label": "32 vCPU（AMD EPYC）",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 700304
+            },
+            {
+              "code": "vcpu-64",
+              "label": "64 vCPU（AMD EPYC）",
+              "monthly_cents": 44500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 700305
+            }
+          ],
+          "id": 7003
+        },
+        {
+          "code": "memory",
+          "label": "内存",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 40,
+          "values": [
+            {
+              "code": "ram-4g",
+              "label": "4 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700401
+            },
+            {
+              "code": "ram-16g",
+              "label": "16 GB",
+              "monthly_cents": 4300,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700402
+            },
+            {
+              "code": "ram-32g",
+              "label": "32 GB",
+              "monthly_cents": 10000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700403
+            },
+            {
+              "code": "ram-64g",
+              "label": "64 GB",
+              "monthly_cents": 21500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 700404
+            }
+          ],
+          "id": 7004
+        },
+        {
+          "code": "os_disk",
+          "label": "系统盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 50,
+          "values": [
+            {
+              "code": "sys-60g",
+              "label": "60 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700501
+            },
+            {
+              "code": "sys-100g",
+              "label": "100 GB",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700502
+            }
+          ],
+          "id": 7005
+        },
+        {
+          "code": "data_disk",
+          "label": "数据盘",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 60,
+          "values": [
+            {
+              "code": "data-100g",
+              "label": "100 GB（含在基础价格内）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700601
+            },
+            {
+              "code": "data-900g",
+              "label": "900 GB",
+              "monthly_cents": 1500,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700602
+            },
+            {
+              "code": "data-2tb",
+              "label": "2 TB",
+              "monthly_cents": 3000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700603
+            },
+            {
+              "code": "data-4tb",
+              "label": "4 TB",
+              "monthly_cents": 6000,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 700604
+            }
+          ],
+          "id": 7006
+        },
+        {
+          "code": "snapshot",
+          "label": "快照",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 70,
+          "values": [
+            {
+              "code": "snap-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700701
+            },
+            {
+              "code": "snap-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700702
+            },
+            {
+              "code": "snap-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700703
+            }
+          ],
+          "id": 7007
+        },
+        {
+          "code": "backup",
+          "label": "备份",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 80,
+          "values": [
+            {
+              "code": "bak-0",
+              "label": "无",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700801
+            },
+            {
+              "code": "bak-1",
+              "label": "1 份",
+              "monthly_cents": 1400,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700802
+            },
+            {
+              "code": "bak-2",
+              "label": "2 份",
+              "monthly_cents": 2600,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700803
+            }
+          ],
+          "id": 7008
+        },
+        {
+          "code": "antiddos",
+          "label": "AntiDDoS",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 90,
+          "values": [
+            {
+              "code": "ddos-2g",
+              "label": "2G（免费）",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 700901
+            },
+            {
+              "code": "ddos-5g",
+              "label": "5G",
+              "monthly_cents": 6000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 700902
+            },
+            {
+              "code": "ddos-10g",
+              "label": "10G",
+              "monthly_cents": 9000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 700903
+            },
+            {
+              "code": "ddos-40g",
+              "label": "40G",
+              "monthly_cents": 69930,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 700904
+            },
+            {
+              "code": "ddos-100g",
+              "label": "100G",
+              "monthly_cents": 120000,
+              "setup_cents": 3900,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 700905
+            }
+          ],
+          "id": 7009
+        },
+        {
+          "code": "os",
+          "label": "操作系统",
+          "required": true,
+          "min_count": 1,
+          "max_count": 1,
+          "currency": "USD",
+          "periods": [
+            "1M"
+          ],
+          "verified": true,
+          "active": true,
+          "sort_order": 100,
+          "values": [
+            {
+              "code": "ubuntu",
+              "label": "Ubuntu",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": true,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 10,
+              "id": 701001
+            },
+            {
+              "code": "centos",
+              "label": "CentOS",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 20,
+              "id": 701002
+            },
+            {
+              "code": "debian",
+              "label": "Debian",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 30,
+              "id": 701003
+            },
+            {
+              "code": "windows",
+              "label": "Windows",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 40,
+              "id": 701004
+            },
+            {
+              "code": "arch",
+              "label": "Arch",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 50,
+              "id": 701005
+            },
+            {
+              "code": "fedora",
+              "label": "Fedora",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 60,
+              "id": 701006
+            },
+            {
+              "code": "almalinux",
+              "label": "AlmaLinux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 70,
+              "id": 701007
+            },
+            {
+              "code": "rocky",
+              "label": "Rocky Linux",
+              "monthly_cents": 0,
+              "setup_cents": 0,
+              "is_default": false,
+              "active": true,
+              "stock_control": false,
+              "quantity_in_stock": 0,
+              "sort_order": 80,
+              "id": 701008
+            }
+          ],
+          "id": 7010
+        }
+      ]
+    }
+  ],
+  "unverified_products": [
+    {
+      "slug": "mc-jp-gia-cloud-basic",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-cia-cloud-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-cia-hpc-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-sb-hpc-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-gia-cloud-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-gia-cloud-basic",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-gia-cloud-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-cia-cloud-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-gia-cloud-intel",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-cia-cloud-intel",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-kr-cia-cloud-8180m",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-kr-kt-cloud-8180m",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-th-hpc-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-tw-hpc-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-vn-cia-hpc-amd",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-01",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-02",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-03",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-04",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-05",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-06",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-07",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-08",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-09",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-10",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-11",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-12",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-13",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-hk-ds-14",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-ds-01",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-ds-02",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-ds-03",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-ds-04",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-jp-ds-05",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-ds-01",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-ds-02",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-sg-ds-03",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-kr-ds-01",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-vn-ds-01",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    },
+    {
+      "slug": "mc-th-ds-01",
+      "reason": "源站配置器未逐项核对，不创建选项，也不使用 0 元占位价。"
+    }
+  ],
+  "unchanged_products": [
+    "hk-1c1g",
+    "hk-2c2g",
+    "hk-4c4g"
+  ]
+}

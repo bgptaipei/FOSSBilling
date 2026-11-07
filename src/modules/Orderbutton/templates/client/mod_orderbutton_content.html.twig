@@ -35,8 +35,13 @@
                 </div>
                 {% if guest.extension_is_on({"mod":'branding'}) %}
                     <div class="d-flex justify-content-center small text-muted pt-3 pb-2">
+                        {% if 'Powered by :link'|trans != 'Powered by :link' %}
+                        {% set fb_link %}<a href="https://fossbilling.org" title="{{ 'Billing Software'|trans }}" target="_blank">FOSSBilling</a>{% endset %}
+                        <span>{{ 'Powered by :link'|trans({':link': fb_link})|raw }}</span>
+                        {% else %}
                         <span>{{ 'Powered by'|trans }}</span>&nbsp;<a href="https://fossbilling.org"
                                                                       title="Billing Software" target="_blank">FOSSBilling</a>
+                        {% endif %}
                     </div>
                 {% endif %}
 
