@@ -2029,7 +2029,18 @@ class Service implements InjectionAwareInterface
     {
         $groups = [];
         foreach ($this->loadPricedOptionCatalog($product)['groups'] ?? [] as $group) {
-            if (!is_array($group) || !($group['verified'] ?? false)) {
+            if (!is_array($group)) {
+                continue;
+            }
+            if (!($group['verified'] ?? false)) {
+                $groups[] = [
+                    'code' => $group['code'],
+                    'label' => $group['label'],
+                    'disabled' => true,
+                    'reason' => '源站记录不足以确认计费方式，暂不可选，也不会记入账单。',
+                    'values' => [],
+                ];
+
                 continue;
             }
             $values = [];
@@ -2049,6 +2060,7 @@ class Service implements InjectionAwareInterface
             $groups[] = [
                 'code' => $group['code'],
                 'label' => $group['label'],
+                'disabled' => false,
                 'values' => $values,
             ];
         }

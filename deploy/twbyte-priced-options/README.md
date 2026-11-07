@@ -6,6 +6,8 @@
 
 订购页对已核实的配置使用下拉框。合计由服务器按目录价计算，购物车、订单和发票使用同一套整数分计算。客户端提交的 `price`、`setup_price`、`rate` 会被丢掉。
 
+- 快照和备份在源站记录里不能确定是一个选项还是两个分别计费的下拉（浏览器原文是 “Snapshots …; Backup same”，两边价目相同）。这一项关闭，不计价。
+- Windows 只被点名是否出现，没有加价。不按 0 元提供。pid 119 和 60 仍然明确不提供 Windows。
 - 周期加价进入订单单价，续费沿用下单时写入订单配置的快照，不重新读取后来改过的目录价。
 - AntiDDoS 开通费是单独的发票行，不并进月租，续费发票不包含开通费。
 - `mc-*` 产品保持 `stock_control = 1` 且库存为 0。可以预览价格，直接调用购物车或下单接口仍会因库存失败。
@@ -19,13 +21,13 @@
 
 | slug | 源站 pid | 基础月费 USD | Windows |
 | --- | --- | --- | --- |
-| mc-hk-gia-cloud-basic | 119 | 69.00 | 无 |
-| mc-hk-cia-hpc-amd | 60 | 88.00 | 无 |
-| mc-hk-gia-cloud-intel | 90 | 160.00 | 有，加价 0 |
-| mc-hk-cia-cloud-intel | 91 | 75.00 | 有，加价 0 |
-| mc-hk-gia-cloud-amd | 87 | 144.00 | 有，加价 0 |
-| mc-hk-cdia-cloud-amd | 88 | 144.00 | 有，加价 0 |
-| mc-hk-cia-cloud-amd | 84 | 65.00 | 有，加价 0 |
+| mc-hk-gia-cloud-basic | 119 | 69.00 | 源站明确不提供 |
+| mc-hk-cia-hpc-amd | 60 | 88.00 | 源站明确不提供 |
+| mc-hk-gia-cloud-intel | 90 | 160.00 | 名单中有，加价未记录，不可选 |
+| mc-hk-cia-cloud-intel | 91 | 75.00 | 名单中有，加价未记录，不可选 |
+| mc-hk-gia-cloud-amd | 87 | 144.00 | 名单中有，加价未记录，不可选 |
+| mc-hk-cdia-cloud-amd | 88 | 144.00 | 名单中有，加价未记录，不可选 |
+| mc-hk-cia-cloud-amd | 84 | 65.00 | 名单中有，加价未记录，不可选 |
 
 其余 40 个 `mc-*` 产品没有配置器明细。导入脚本不会给它们建选项，也不会写 0 元占位。订购页显示“尚未核实”。以后把核实过的组写进 `hk7-priced-options.json` 的 `products` 再导入即可。未核实组如果 `verified = 0`，计价会拒绝，不会按 0 元成交。
 

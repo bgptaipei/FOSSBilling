@@ -89,18 +89,8 @@ LINUX = [
     ("almalinux", "AlmaLinux", 0, 0, False),
     ("rocky", "Rocky Linux", 0, 0, False),
 ]
-WINDOWS = LINUX[:3] + [("windows", "Windows", 0, 0, False)] + LINUX[3:]
-
-SNAPSHOTS = [
-    ("snap-0", "无", 0, 0, True),
-    ("snap-1", "1 份", 14, 0, False),
-    ("snap-2", "2 份", 26, 0, False),
-]
-BACKUPS = [
-    ("bak-0", "无", 0, 0, True),
-    ("bak-1", "1 份", 14, 0, False),
-    ("bak-2", "2 份", 26, 0, False),
-]
+# Windows is named in the OS list for some plans and excluded for pid 119/60,
+# but the capture has no Windows surcharge. It is not offered at 0.
 DDOS = [
     ("ddos-2g", "2G（免费）", 0, 0, True),
     ("ddos-5g", "5G", 60, 39, False),
@@ -110,12 +100,28 @@ DDOS = [
 ]
 
 
-def common_tail(allow_windows):
+def uncertain_snapshot_backup():
+    """One disabled control. Do not emit two chargeable dropdowns."""
+    return {
+        "code": "snapshot_backup",
+        "label": "快照和备份",
+        "required": False,
+        "min_count": 0,
+        "max_count": 0,
+        "currency": "USD",
+        "periods": ["1M"],
+        "verified": False,
+        "active": True,
+        "sort_order": 70,
+        "values": [],
+    }
+
+
+def common_tail():
     return [
-        choices("snapshot", "快照", 70, SNAPSHOTS),
-        choices("backup", "备份", 80, BACKUPS),
+        uncertain_snapshot_backup(),
         choices("antiddos", "AntiDDoS", 90, DDOS),
-        choices("os", "操作系统", 100, WINDOWS if allow_windows else LINUX),
+        choices("os", "操作系统", 100, LINUX),
     ]
 
 
@@ -150,7 +156,7 @@ PRODUCTS = [
             choices("memory", "内存", 40, [("ram-2g", "2 GB（含在基础价格内）", 0, 0, True)]),
             choices("os_disk", "系统盘", 50, [("sys-10g", "10 GB（含在基础价格内）", 0, 0, True)]),
             choices("data_disk", "数据盘", 60, [("data-none", "无", 0, 0, True)]),
-            *common_tail(False),
+            *common_tail(),
         ],
         "GIA100M,1IP; vCPU 1 incl,2 +30,4 +40; RAM2G; OS disk 10G; no data disk",
     ),
@@ -190,7 +196,7 @@ PRODUCTS = [
                 ("data-200g", "200 GB", 60, 0, False),
                 ("data-500g", "500 GB", 200, 0, False),
             ]),
-            *common_tail(False),
+            *common_tail(),
         ],
         "CIA; BW 10M incl,20M +70,40M +124.30; IP1 incl,2..5 +4.30/step; vCPU 4 incl,8 +15,16 +32,32 +200 (AMD EPYC); RAM 4G,8G +15,16G +43,32G +100,64G +215; OS disk 50G Nvme,90G +15; data N/A,50G +15,100G +30,200G +60,500G +200",
     ),
@@ -226,7 +232,7 @@ PRODUCTS = [
                 ("data-2tb", "2 TB", 30, 0, False),
                 ("data-4tb", "4 TB", 84, 0, False),
             ]),
-            *common_tail(True),
+            *common_tail(),
         ],
         "GIA; BW 100M,200M +124.30,500M +233.10; IP 2..8; vCPU 8 Platinum,16 +43,32 +100; RAM16G,32G +100,64G +215; sys 100G,200G +11,500G +26; data 900G,2TB +30,4TB +84",
     ),
@@ -266,7 +272,7 @@ PRODUCTS = [
                 ("data-2tb", "2 TB", 30, 0, False),
                 ("data-4tb", "4 TB", 60, 0, False),
             ]),
-            *common_tail(True),
+            *common_tail(),
         ],
         "CIA; BW 10M,20M +30,40M +124.30; IP2..8; vCPU 4 E5-2696v4,8 +15,16 +43,32 +100; RAM4G,16G +43,32G +100,64G +215; sys 60G,100G +5,200G +11,500G +26; data 100G,900G +15,2TB +30,4TB +60",
     ),
@@ -304,7 +310,7 @@ PRODUCTS = [
                 ("data-8tb", "8 TB", 180, 0, False),
                 ("data-16tb", "16 TB", 360, 0, False),
             ]),
-            *common_tail(True),
+            *common_tail(),
         ],
         "GIA; BW 100M,200M +124.30,500M +233.10; IP2..8; vCPU 8 EPYC,16 +43,32 +100; RAM16G,32G +100,64G +215; sys 100G,200G +11,500G +26; data 900G,2TB +30,4TB +60,8TB +180,16TB +360",
     ),
@@ -336,7 +342,7 @@ PRODUCTS = [
                 ("data-2tb", "2 TB", 30, 0, False),
                 ("data-4tb", "4 TB", 60, 0, False),
             ]),
-            *common_tail(True),
+            *common_tail(),
         ],
         "CDIA 50M fixed; IP2..8; vCPU 8 EPYC,16 +22,32 +100; RAM16G,32G +100,64G +215; sys 100G,200G +11,500G +26; data 900G,2TB +30,4TB +60",
     ),
@@ -376,7 +382,7 @@ PRODUCTS = [
                 ("data-2tb", "2 TB", 30, 0, False),
                 ("data-4tb", "4 TB", 60, 0, False),
             ]),
-            *common_tail(True),
+            *common_tail(),
         ],
         "CIA; BW 10M,20M +30,40M +124.30,100M +999; IP2..8; vCPU 4,8 +15,16 +43,32 +100,64 +445; RAM4G,16G +43,32G +100,64G +215; sys 60G,100G +15; data 100G,900G +15,2TB +30,4TB +60",
     ),
@@ -522,7 +528,21 @@ def main():
         "currency": "USD",
         "periods": ["1M"],
         "source": "handoff detailed-findings hk_cloud + hk_cloud_common_addons, checked 2026-11-07",
-        "note": "Only these seven products have a verified configurator. Option surcharges are monthly USD cents. AntiDDoS setup is separate and is not folded into the monthly price. Windows is absent on source pid 119 and 60.",
+        "note": "Only these seven products have a verified configurator. Option surcharges are monthly USD cents. AntiDDoS setup is separate and is not folded into the monthly price. Snapshot/backup and Windows are recorded as uncertain and are not priced.",
+        "uncertain": [
+            {
+                "code": "snapshot_backup",
+                "disabled": True,
+                "evidence": "browser pid 119: 'Snapshots N/A/1 +14/2 +26; Backup same'. detailed-findings hk_cloud_common_addons repeats the same price string under snapshots and backup.",
+                "reason": "不能确定快照和备份是一个合并选项还是两个分别计费的下拉。为避免把一次选择拆成两项收费，该项关闭且不计价。",
+            },
+            {
+                "code": "os_windows",
+                "disabled": True,
+                "evidence": "os list names Windows except pid 119 and 60. No Windows surcharge is recorded.",
+                "reason": "Windows 是否可选已有记录，但没有明确加价或明确的 0 元。不按免费系统提供。",
+            },
+        ],
         "products": PRODUCTS,
         "unverified_products": [
             {

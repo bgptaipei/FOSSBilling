@@ -82,11 +82,10 @@ final class PricedOptionEngine
 
         $known = [];
         foreach ($groups as $group) {
-            if (!is_array($group)) {
+            if (!is_array($group) || !is_string($group['code'] ?? null) || $group['code'] === '') {
                 throw new InformationException('配置选项无效');
             }
-            self::assertGroupBillable($group, $baseCurrency, $period);
-            $known[(string) $group['code']] = true;
+            $known[(string) $group['code']] = $group;
         }
         foreach (array_keys($rawOptions) as $code) {
             if (!isset($known[(string) $code])) {
@@ -101,6 +100,14 @@ final class PricedOptionEngine
 
         foreach ($groups as $group) {
             $code = (string) $group['code'];
+            if (!($group['verified'] ?? false)) {
+                if (array_key_exists($code, $rawOptions)) {
+                    throw new InformationException('该配置项尚未核实，不能计价');
+                }
+
+                continue;
+            }
+            self::assertGroupBillable($group, $baseCurrency, $period);
             $picked = array_key_exists($code, $rawOptions)
                 ? self::normalizeSelection($rawOptions[$code], $group)
                 : [self::defaultValue($group)];

@@ -4,7 +4,21 @@
     "1M"
   ],
   "source": "handoff detailed-findings hk_cloud + hk_cloud_common_addons, checked 2026-11-07",
-  "note": "Only these seven products have a verified configurator. Option surcharges are monthly USD cents. AntiDDoS setup is separate and is not folded into the monthly price. Windows is absent on source pid 119 and 60.",
+  "note": "Only these seven products have a verified configurator. Option surcharges are monthly USD cents. AntiDDoS setup is separate and is not folded into the monthly price. Snapshot/backup and Windows are recorded as uncertain and are not priced.",
+  "uncertain": [
+    {
+      "code": "snapshot_backup",
+      "disabled": true,
+      "evidence": "browser pid 119: 'Snapshots N/A/1 +14/2 +26; Backup same'. detailed-findings hk_cloud_common_addons repeats the same price string under snapshots and backup.",
+      "reason": "不能确定快照和备份是一个合并选项还是两个分别计费的下拉。为避免把一次选择拆成两项收费，该项关闭且不计价。"
+    },
+    {
+      "code": "os_windows",
+      "disabled": true,
+      "evidence": "os list names Windows except pid 119 and 60. No Windows surcharge is recorded.",
+      "reason": "Windows 是否可选已有记录，但没有明确加价或明确的 0 元。不按免费系统提供。"
+    }
+  ],
   "products": [
     {
       "slug": "mc-hk-gia-cloud-basic",
@@ -217,110 +231,20 @@
           "id": 1006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 100701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 100702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 100703
-            }
-          ],
+          "values": [],
           "id": 1007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 100801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 100802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 100803
-            }
-          ],
-          "id": 1008
         },
         {
           "code": "antiddos",
@@ -346,7 +270,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 100901
+              "id": 100801
             },
             {
               "code": "ddos-5g",
@@ -358,7 +282,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 100902
+              "id": 100802
             },
             {
               "code": "ddos-10g",
@@ -370,7 +294,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 100903
+              "id": 100803
             },
             {
               "code": "ddos-40g",
@@ -382,7 +306,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 100904
+              "id": 100804
             },
             {
               "code": "ddos-100g",
@@ -394,10 +318,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 100905
+              "id": 100805
             }
           ],
-          "id": 1009
+          "id": 1008
         },
         {
           "code": "os",
@@ -423,7 +347,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 101001
+              "id": 100901
             },
             {
               "code": "centos",
@@ -435,7 +359,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 101002
+              "id": 100902
             },
             {
               "code": "debian",
@@ -447,7 +371,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 101003
+              "id": 100903
             },
             {
               "code": "arch",
@@ -459,7 +383,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 101004
+              "id": 100904
             },
             {
               "code": "fedora",
@@ -471,7 +395,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 101005
+              "id": 100905
             },
             {
               "code": "almalinux",
@@ -483,7 +407,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 60,
-              "id": 101006
+              "id": 100906
             },
             {
               "code": "rocky",
@@ -495,10 +419,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 70,
-              "id": 101007
+              "id": 100907
             }
           ],
-          "id": 1010
+          "id": 1009
         }
       ]
     },
@@ -905,110 +829,20 @@
           "id": 2006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 200701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 200702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 200703
-            }
-          ],
+          "values": [],
           "id": 2007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 200801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 200802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 200803
-            }
-          ],
-          "id": 2008
         },
         {
           "code": "antiddos",
@@ -1034,7 +868,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 200901
+              "id": 200801
             },
             {
               "code": "ddos-5g",
@@ -1046,7 +880,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 200902
+              "id": 200802
             },
             {
               "code": "ddos-10g",
@@ -1058,7 +892,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 200903
+              "id": 200803
             },
             {
               "code": "ddos-40g",
@@ -1070,7 +904,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 200904
+              "id": 200804
             },
             {
               "code": "ddos-100g",
@@ -1082,10 +916,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 200905
+              "id": 200805
             }
           ],
-          "id": 2009
+          "id": 2008
         },
         {
           "code": "os",
@@ -1111,7 +945,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 201001
+              "id": 200901
             },
             {
               "code": "centos",
@@ -1123,7 +957,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 201002
+              "id": 200902
             },
             {
               "code": "debian",
@@ -1135,7 +969,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 201003
+              "id": 200903
             },
             {
               "code": "arch",
@@ -1147,7 +981,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 201004
+              "id": 200904
             },
             {
               "code": "fedora",
@@ -1159,7 +993,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 201005
+              "id": 200905
             },
             {
               "code": "almalinux",
@@ -1171,7 +1005,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 60,
-              "id": 201006
+              "id": 200906
             },
             {
               "code": "rocky",
@@ -1183,10 +1017,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 70,
-              "id": 201007
+              "id": 200907
             }
           ],
-          "id": 2010
+          "id": 2009
         }
       ]
     },
@@ -1569,110 +1403,20 @@
           "id": 3006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 300701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 300702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 300703
-            }
-          ],
+          "values": [],
           "id": 3007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 300801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 300802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 300803
-            }
-          ],
-          "id": 3008
         },
         {
           "code": "antiddos",
@@ -1698,7 +1442,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 300901
+              "id": 300801
             },
             {
               "code": "ddos-5g",
@@ -1710,7 +1454,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 300902
+              "id": 300802
             },
             {
               "code": "ddos-10g",
@@ -1722,7 +1466,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 300903
+              "id": 300803
             },
             {
               "code": "ddos-40g",
@@ -1734,7 +1478,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 300904
+              "id": 300804
             },
             {
               "code": "ddos-100g",
@@ -1746,10 +1490,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 300905
+              "id": 300805
             }
           ],
-          "id": 3009
+          "id": 3008
         },
         {
           "code": "os",
@@ -1775,7 +1519,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 301001
+              "id": 300901
             },
             {
               "code": "centos",
@@ -1787,7 +1531,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 301002
+              "id": 300902
             },
             {
               "code": "debian",
@@ -1799,19 +1543,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 301003
-            },
-            {
-              "code": "windows",
-              "label": "Windows",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 40,
-              "id": 301004
+              "id": 300903
             },
             {
               "code": "arch",
@@ -1822,8 +1554,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 50,
-              "id": 301005
+              "sort_order": 40,
+              "id": 300904
             },
             {
               "code": "fedora",
@@ -1834,8 +1566,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 60,
-              "id": 301006
+              "sort_order": 50,
+              "id": 300905
             },
             {
               "code": "almalinux",
@@ -1846,8 +1578,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 70,
-              "id": 301007
+              "sort_order": 60,
+              "id": 300906
             },
             {
               "code": "rocky",
@@ -1858,11 +1590,11 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 80,
-              "id": 301008
+              "sort_order": 70,
+              "id": 300907
             }
           ],
-          "id": 3010
+          "id": 3009
         }
       ]
     },
@@ -2293,110 +2025,20 @@
           "id": 4006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 400701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 400702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 400703
-            }
-          ],
+          "values": [],
           "id": 4007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 400801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 400802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 400803
-            }
-          ],
-          "id": 4008
         },
         {
           "code": "antiddos",
@@ -2422,7 +2064,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 400901
+              "id": 400801
             },
             {
               "code": "ddos-5g",
@@ -2434,7 +2076,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 400902
+              "id": 400802
             },
             {
               "code": "ddos-10g",
@@ -2446,7 +2088,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 400903
+              "id": 400803
             },
             {
               "code": "ddos-40g",
@@ -2458,7 +2100,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 400904
+              "id": 400804
             },
             {
               "code": "ddos-100g",
@@ -2470,10 +2112,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 400905
+              "id": 400805
             }
           ],
-          "id": 4009
+          "id": 4008
         },
         {
           "code": "os",
@@ -2499,7 +2141,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 401001
+              "id": 400901
             },
             {
               "code": "centos",
@@ -2511,7 +2153,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 401002
+              "id": 400902
             },
             {
               "code": "debian",
@@ -2523,19 +2165,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 401003
-            },
-            {
-              "code": "windows",
-              "label": "Windows",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 40,
-              "id": 401004
+              "id": 400903
             },
             {
               "code": "arch",
@@ -2546,8 +2176,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 50,
-              "id": 401005
+              "sort_order": 40,
+              "id": 400904
             },
             {
               "code": "fedora",
@@ -2558,8 +2188,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 60,
-              "id": 401006
+              "sort_order": 50,
+              "id": 400905
             },
             {
               "code": "almalinux",
@@ -2570,8 +2200,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 70,
-              "id": 401007
+              "sort_order": 60,
+              "id": 400906
             },
             {
               "code": "rocky",
@@ -2582,11 +2212,11 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 80,
-              "id": 401008
+              "sort_order": 70,
+              "id": 400907
             }
           ],
-          "id": 4010
+          "id": 4009
         }
       ]
     },
@@ -2993,110 +2623,20 @@
           "id": 5006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 500701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 500702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 500703
-            }
-          ],
+          "values": [],
           "id": 5007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 500801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 500802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 500803
-            }
-          ],
-          "id": 5008
         },
         {
           "code": "antiddos",
@@ -3122,7 +2662,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 500901
+              "id": 500801
             },
             {
               "code": "ddos-5g",
@@ -3134,7 +2674,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 500902
+              "id": 500802
             },
             {
               "code": "ddos-10g",
@@ -3146,7 +2686,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 500903
+              "id": 500803
             },
             {
               "code": "ddos-40g",
@@ -3158,7 +2698,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 500904
+              "id": 500804
             },
             {
               "code": "ddos-100g",
@@ -3170,10 +2710,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 500905
+              "id": 500805
             }
           ],
-          "id": 5009
+          "id": 5008
         },
         {
           "code": "os",
@@ -3199,7 +2739,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 501001
+              "id": 500901
             },
             {
               "code": "centos",
@@ -3211,7 +2751,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 501002
+              "id": 500902
             },
             {
               "code": "debian",
@@ -3223,19 +2763,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 501003
-            },
-            {
-              "code": "windows",
-              "label": "Windows",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 40,
-              "id": 501004
+              "id": 500903
             },
             {
               "code": "arch",
@@ -3246,8 +2774,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 50,
-              "id": 501005
+              "sort_order": 40,
+              "id": 500904
             },
             {
               "code": "fedora",
@@ -3258,8 +2786,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 60,
-              "id": 501006
+              "sort_order": 50,
+              "id": 500905
             },
             {
               "code": "almalinux",
@@ -3270,8 +2798,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 70,
-              "id": 501007
+              "sort_order": 60,
+              "id": 500906
             },
             {
               "code": "rocky",
@@ -3282,11 +2810,11 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 80,
-              "id": 501008
+              "sort_order": 70,
+              "id": 500907
             }
           ],
-          "id": 5010
+          "id": 5009
         }
       ]
     },
@@ -3645,110 +3173,20 @@
           "id": 6006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 600701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 600702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 600703
-            }
-          ],
+          "values": [],
           "id": 6007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 600801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 600802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 600803
-            }
-          ],
-          "id": 6008
         },
         {
           "code": "antiddos",
@@ -3774,7 +3212,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 600901
+              "id": 600801
             },
             {
               "code": "ddos-5g",
@@ -3786,7 +3224,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 600902
+              "id": 600802
             },
             {
               "code": "ddos-10g",
@@ -3798,7 +3236,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 600903
+              "id": 600803
             },
             {
               "code": "ddos-40g",
@@ -3810,7 +3248,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 600904
+              "id": 600804
             },
             {
               "code": "ddos-100g",
@@ -3822,10 +3260,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 600905
+              "id": 600805
             }
           ],
-          "id": 6009
+          "id": 6008
         },
         {
           "code": "os",
@@ -3851,7 +3289,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 601001
+              "id": 600901
             },
             {
               "code": "centos",
@@ -3863,7 +3301,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 601002
+              "id": 600902
             },
             {
               "code": "debian",
@@ -3875,19 +3313,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 601003
-            },
-            {
-              "code": "windows",
-              "label": "Windows",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 40,
-              "id": 601004
+              "id": 600903
             },
             {
               "code": "arch",
@@ -3898,8 +3324,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 50,
-              "id": 601005
+              "sort_order": 40,
+              "id": 600904
             },
             {
               "code": "fedora",
@@ -3910,8 +3336,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 60,
-              "id": 601006
+              "sort_order": 50,
+              "id": 600905
             },
             {
               "code": "almalinux",
@@ -3922,8 +3348,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 70,
-              "id": 601007
+              "sort_order": 60,
+              "id": 600906
             },
             {
               "code": "rocky",
@@ -3934,11 +3360,11 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 80,
-              "id": 601008
+              "sort_order": 70,
+              "id": 600907
             }
           ],
-          "id": 6010
+          "id": 6009
         }
       ]
     },
@@ -4369,110 +3795,20 @@
           "id": 7006
         },
         {
-          "code": "snapshot",
-          "label": "快照",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
+          "code": "snapshot_backup",
+          "label": "快照和备份",
+          "required": false,
+          "min_count": 0,
+          "max_count": 0,
           "currency": "USD",
           "periods": [
             "1M"
           ],
-          "verified": true,
+          "verified": false,
           "active": true,
           "sort_order": 70,
-          "values": [
-            {
-              "code": "snap-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 700701
-            },
-            {
-              "code": "snap-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 700702
-            },
-            {
-              "code": "snap-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 700703
-            }
-          ],
+          "values": [],
           "id": 7007
-        },
-        {
-          "code": "backup",
-          "label": "备份",
-          "required": true,
-          "min_count": 1,
-          "max_count": 1,
-          "currency": "USD",
-          "periods": [
-            "1M"
-          ],
-          "verified": true,
-          "active": true,
-          "sort_order": 80,
-          "values": [
-            {
-              "code": "bak-0",
-              "label": "无",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": true,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 10,
-              "id": 700801
-            },
-            {
-              "code": "bak-1",
-              "label": "1 份",
-              "monthly_cents": 1400,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 20,
-              "id": 700802
-            },
-            {
-              "code": "bak-2",
-              "label": "2 份",
-              "monthly_cents": 2600,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 30,
-              "id": 700803
-            }
-          ],
-          "id": 7008
         },
         {
           "code": "antiddos",
@@ -4498,7 +3834,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 700901
+              "id": 700801
             },
             {
               "code": "ddos-5g",
@@ -4510,7 +3846,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 700902
+              "id": 700802
             },
             {
               "code": "ddos-10g",
@@ -4522,7 +3858,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 700903
+              "id": 700803
             },
             {
               "code": "ddos-40g",
@@ -4534,7 +3870,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 40,
-              "id": 700904
+              "id": 700804
             },
             {
               "code": "ddos-100g",
@@ -4546,10 +3882,10 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 50,
-              "id": 700905
+              "id": 700805
             }
           ],
-          "id": 7009
+          "id": 7008
         },
         {
           "code": "os",
@@ -4575,7 +3911,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 10,
-              "id": 701001
+              "id": 700901
             },
             {
               "code": "centos",
@@ -4587,7 +3923,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 20,
-              "id": 701002
+              "id": 700902
             },
             {
               "code": "debian",
@@ -4599,19 +3935,7 @@
               "stock_control": false,
               "quantity_in_stock": 0,
               "sort_order": 30,
-              "id": 701003
-            },
-            {
-              "code": "windows",
-              "label": "Windows",
-              "monthly_cents": 0,
-              "setup_cents": 0,
-              "is_default": false,
-              "active": true,
-              "stock_control": false,
-              "quantity_in_stock": 0,
-              "sort_order": 40,
-              "id": 701004
+              "id": 700903
             },
             {
               "code": "arch",
@@ -4622,8 +3946,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 50,
-              "id": 701005
+              "sort_order": 40,
+              "id": 700904
             },
             {
               "code": "fedora",
@@ -4634,8 +3958,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 60,
-              "id": 701006
+              "sort_order": 50,
+              "id": 700905
             },
             {
               "code": "almalinux",
@@ -4646,8 +3970,8 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 70,
-              "id": 701007
+              "sort_order": 60,
+              "id": 700906
             },
             {
               "code": "rocky",
@@ -4658,11 +3982,11 @@
               "active": true,
               "stock_control": false,
               "quantity_in_stock": 0,
-              "sort_order": 80,
-              "id": 701008
+              "sort_order": 70,
+              "id": 700907
             }
           ],
-          "id": 7010
+          "id": 7009
         }
       ]
     }

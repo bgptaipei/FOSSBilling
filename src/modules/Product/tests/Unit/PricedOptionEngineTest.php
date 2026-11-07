@@ -96,8 +96,6 @@ test('multiple HK7 options keep recurring and setup fees separate', function ():
                 'memory' => 'ram-8g',
                 'os_disk' => 'sys-90g',
                 'data_disk' => 'data-100g',
-                'snapshot' => 'snap-1',
-                'backup' => 'bak-2',
                 'antiddos' => 'ddos-5g',
                 'os' => 'ubuntu',
             ],
@@ -106,8 +104,8 @@ test('multiple HK7 options keep recurring and setup fees separate', function ():
         0
     );
 
-    expect($quote['option_recurring_cents'])->toBe(25360)
-        ->and($quote['recurring_cents'])->toBe(34160)
+    expect($quote['option_recurring_cents'])->toBe(21360)
+        ->and($quote['recurring_cents'])->toBe(30160)
         ->and($quote['setup_cents'])->toBe(3900)
         ->and($quote['option_setup_cents'])->toBe(3900);
 
@@ -326,29 +324,152 @@ test('renewal uses the checkout snapshot and drops the one-time setup fee', func
     expect($stillSum)->toBe($quote['recurring_cents']);
 });
 
-test('windows is unavailable on HK119 and HK60 and free on the other verified plans', function (): void {
-    foreach (['mc-hk-gia-cloud-basic', 'mc-hk-cia-hpc-amd'] as $slug) {
+test('windows has no verified price and snapshot backup is not split into two charges', function (): void {
+    $document = pricedOptionDocument();
+    expect($document['uncertain'])->toHaveCount(2);
+    $uncertain = array_column($document['uncertain'], 'code');
+    expect($uncertain)->toContain('snapshot_backup')
+        ->and($uncertain)->toContain('os_windows');
+
+    foreach ($document['products'] as $product) {
         $codes = [];
-        foreach (pricedOptionCatalog($slug)['groups'] as $group) {
+        $snapshotGroups = 0;
+        $backupGroups = 0;
+        foreach ($product['groups'] as $group) {
             if ($group['code'] === 'os') {
                 $codes = array_column($group['values'], 'code');
+                expect($group['verified'])->toBeTrue();
+            }
+            if ($group['code'] === 'snapshot') {
+                ++$snapshotGroups;
+            }
+            if ($group['code'] === 'backup') {
+                ++$backupGroups;
+            }
+            if ($group['code'] === 'snapshot_backup') {
+                expect($group['verified'])->toBeFalse()
+                    ->and($group['values'])->toBe([]);
             }
         }
-        expect($codes)->not->toContain('windows');
-        expect(fn () => PricedOptionEngine::quote(pricedOptionCatalog($slug), ['period' => '1M', 'options' => ['os' => 'windows']], 100, 0))
-            ->toThrow(FOSSBilling\InformationException::class, '所选配置不属于该产品');
-    }
+        expect($codes)->not->toContain('windows')
+            ->and($snapshotGroups)->toBe(0)
+            ->and($backupGroups)->toBe(0);
 
-    foreach (['mc-hk-gia-cloud-intel', 'mc-hk-cia-cloud-intel', 'mc-hk-gia-cloud-amd', 'mc-hk-cdia-cloud-amd', 'mc-hk-cia-cloud-amd'] as $slug) {
-        $product = pricedOptionProduct($slug);
         $quote = PricedOptionEngine::quote(
+            ['groups' => $product['groups']],
+            ['period' => '1M'],
+            $product['base_monthly_cents'],
+            0
+        );
+        expect($quote['recurring_cents'])->toBe($product['base_monthly_cents']);
+
+        expect(fn () => PricedOptionEngine::quote(
             ['groups' => $product['groups']],
             ['period' => '1M', 'options' => ['os' => 'windows']],
             $product['base_monthly_cents'],
             0
-        );
-        expect($quote['recurring_cents'])->toBe($product['base_monthly_cents'])
-            ->and($quote['normalized_options']['os'])->toBe('windows');
+        ))->toThrow(FOSSBilling\InformationException::class, '所选配置不属于该产品');
+
+        expect(fn () => PricedOptionEngine::quote(
+            ['groups' => $product['groups']],
+            ['period' => '1M', 'options' => ['snapshot_backup' => 'snap-1']],
+            $product['base_monthly_cents'],
+            0
+        ))->toThrow(FOSSBilling\InformationException::class, '该配置项尚未核实，不能计价');
+    }
+});
+
+test('verified bandwidth memory storage and ip surcharges match the handoff cfg lines', function (): void {
+    $expected = [
+        'mc-hk-gia-cloud-basic' => [
+            'bandwidth' => ['gia-100m' => [0, 0]],
+            'ip' => ['ip-1' => [0, 0]],
+            'vcpu' => ['vcpu-1' => [0, 0], 'vcpu-2' => [3000, 0], 'vcpu-4' => [4000, 0]],
+            'memory' => ['ram-2g' => [0, 0]],
+            'os_disk' => ['sys-10g' => [0, 0]],
+            'data_disk' => ['data-none' => [0, 0]],
+        ],
+        'mc-hk-cia-hpc-amd' => [
+            'bandwidth' => ['cia-10m' => [0, 0], 'cia-20m' => [7000, 0], 'cia-40m' => [12430, 0]],
+            'ip' => ['ip-1' => [0, 0], 'ip-2' => [430, 0], 'ip-3' => [860, 0], 'ip-4' => [1290, 0], 'ip-5' => [1720, 0]],
+            'vcpu' => ['vcpu-4' => [0, 0], 'vcpu-8' => [1500, 0], 'vcpu-16' => [3200, 0], 'vcpu-32' => [20000, 0]],
+            'memory' => ['ram-4g' => [0, 0], 'ram-8g' => [1500, 0], 'ram-16g' => [4300, 0], 'ram-32g' => [10000, 0], 'ram-64g' => [21500, 0]],
+            'os_disk' => ['sys-50g' => [0, 0], 'sys-90g' => [1500, 0]],
+            'data_disk' => ['data-none' => [0, 0], 'data-50g' => [1500, 0], 'data-100g' => [3000, 0], 'data-200g' => [6000, 0], 'data-500g' => [20000, 0]],
+        ],
+        'mc-hk-gia-cloud-intel' => [
+            'bandwidth' => ['gia-100m' => [0, 0], 'gia-200m' => [12430, 0], 'gia-500m' => [23310, 0]],
+            'memory' => ['ram-16g' => [0, 0], 'ram-32g' => [10000, 0], 'ram-64g' => [21500, 0]],
+            'os_disk' => ['sys-100g' => [0, 0], 'sys-200g' => [1100, 0], 'sys-500g' => [2600, 0]],
+            'data_disk' => ['data-900g' => [0, 0], 'data-2tb' => [3000, 0], 'data-4tb' => [8400, 0]],
+            'vcpu' => ['vcpu-8' => [0, 0], 'vcpu-16' => [4300, 0], 'vcpu-32' => [10000, 0]],
+        ],
+        'mc-hk-cia-cloud-intel' => [
+            'bandwidth' => ['cia-10m' => [0, 0], 'cia-20m' => [3000, 0], 'cia-40m' => [12430, 0]],
+            'memory' => ['ram-4g' => [0, 0], 'ram-16g' => [4300, 0], 'ram-32g' => [10000, 0], 'ram-64g' => [21500, 0]],
+            'os_disk' => ['sys-60g' => [0, 0], 'sys-100g' => [500, 0], 'sys-200g' => [1100, 0], 'sys-500g' => [2600, 0]],
+            'data_disk' => ['data-100g' => [0, 0], 'data-900g' => [1500, 0], 'data-2tb' => [3000, 0], 'data-4tb' => [6000, 0]],
+            'vcpu' => ['vcpu-4' => [0, 0], 'vcpu-8' => [1500, 0], 'vcpu-16' => [4300, 0], 'vcpu-32' => [10000, 0]],
+        ],
+        'mc-hk-gia-cloud-amd' => [
+            'bandwidth' => ['gia-100m' => [0, 0], 'gia-200m' => [12430, 0], 'gia-500m' => [23310, 0]],
+            'memory' => ['ram-16g' => [0, 0], 'ram-32g' => [10000, 0], 'ram-64g' => [21500, 0]],
+            'os_disk' => ['sys-100g' => [0, 0], 'sys-200g' => [1100, 0], 'sys-500g' => [2600, 0]],
+            'data_disk' => ['data-900g' => [0, 0], 'data-2tb' => [3000, 0], 'data-4tb' => [6000, 0], 'data-8tb' => [18000, 0], 'data-16tb' => [36000, 0]],
+            'vcpu' => ['vcpu-8' => [0, 0], 'vcpu-16' => [4300, 0], 'vcpu-32' => [10000, 0]],
+        ],
+        'mc-hk-cdia-cloud-amd' => [
+            'bandwidth' => ['cdia-50m' => [0, 0]],
+            'memory' => ['ram-16g' => [0, 0], 'ram-32g' => [10000, 0], 'ram-64g' => [21500, 0]],
+            'os_disk' => ['sys-100g' => [0, 0], 'sys-200g' => [1100, 0], 'sys-500g' => [2600, 0]],
+            'data_disk' => ['data-900g' => [0, 0], 'data-2tb' => [3000, 0], 'data-4tb' => [6000, 0]],
+            'vcpu' => ['vcpu-8' => [0, 0], 'vcpu-16' => [2200, 0], 'vcpu-32' => [10000, 0]],
+        ],
+        'mc-hk-cia-cloud-amd' => [
+            'bandwidth' => ['cia-10m' => [0, 0], 'cia-20m' => [3000, 0], 'cia-40m' => [12430, 0], 'cia-100m' => [99900, 0]],
+            'memory' => ['ram-4g' => [0, 0], 'ram-16g' => [4300, 0], 'ram-32g' => [10000, 0], 'ram-64g' => [21500, 0]],
+            'os_disk' => ['sys-60g' => [0, 0], 'sys-100g' => [1500, 0]],
+            'data_disk' => ['data-100g' => [0, 0], 'data-900g' => [1500, 0], 'data-2tb' => [3000, 0], 'data-4tb' => [6000, 0]],
+            'vcpu' => ['vcpu-4' => [0, 0], 'vcpu-8' => [1500, 0], 'vcpu-16' => [4300, 0], 'vcpu-32' => [10000, 0], 'vcpu-64' => [44500, 0]],
+        ],
+    ];
+    $ddos = [
+        'ddos-2g' => [0, 0],
+        'ddos-5g' => [6000, 3900],
+        'ddos-10g' => [9000, 3900],
+        'ddos-40g' => [69930, 3900],
+        'ddos-100g' => [120000, 3900],
+    ];
+
+    foreach ($expected as $slug => $groups) {
+        $actual = [];
+        foreach (pricedOptionCatalog($slug)['groups'] as $group) {
+            if (!($group['verified'] ?? false)) {
+                continue;
+            }
+            $actual[$group['code']] = [];
+            foreach ($group['values'] as $value) {
+                $actual[$group['code']][$value['code']] = [$value['monthly_cents'], $value['setup_cents']];
+            }
+        }
+        foreach ($groups as $code => $values) {
+            expect($actual[$code])->toBe($values);
+        }
+        expect($actual['ip']['ip-2'] ?? $actual['ip']['ip-1'])->toBeArray();
+        if ($slug === 'mc-hk-gia-cloud-basic') {
+            expect(array_keys($actual['ip']))->toBe(['ip-1']);
+        } elseif ($slug === 'mc-hk-cia-hpc-amd') {
+            expect(array_keys($actual['ip']))->toBe(['ip-1', 'ip-2', 'ip-3', 'ip-4', 'ip-5'])
+                ->and($actual['ip']['ip-5'])->toBe([1720, 0]);
+        } else {
+            expect(array_keys($actual['ip']))->toBe(['ip-2', 'ip-3', 'ip-4', 'ip-5', 'ip-6', 'ip-7', 'ip-8'])
+                ->and($actual['ip']['ip-3'])->toBe([430, 0])
+                ->and($actual['ip']['ip-8'])->toBe([2580, 0]);
+        }
+        expect($actual['antiddos'])->toBe($ddos);
+        if (in_array($slug, ['mc-hk-cia-cloud-intel', 'mc-hk-cia-cloud-amd'], true)) {
+            expect($actual['memory'])->not->toHaveKey('ram-8g');
+        }
     }
 });
 
@@ -370,7 +491,9 @@ test('unverified source products are not given zero-priced options', function ()
 
     $catalog = pricedOptionCatalog('mc-hk-gia-cloud-basic');
     $catalog['groups'][0]['verified'] = false;
-    expect(fn () => PricedOptionEngine::quote($catalog, ['period' => '1M'], 6900, 0))
+    $ignored = PricedOptionEngine::quote($catalog, ['period' => '1M'], 6900, 0);
+    expect($ignored['recurring_cents'])->toBe(6900);
+    expect(fn () => PricedOptionEngine::quote($catalog, ['period' => '1M', 'options' => ['bandwidth' => 'gia-100m']], 6900, 0))
         ->toThrow(FOSSBilling\InformationException::class, '该配置项尚未核实，不能计价');
 });
 

@@ -96,6 +96,11 @@
                                         <label class="form-label" for="priced-option-{{ group.code }}">{{ group.label }}</label>
                                     </div>
                                     <div class="col">
+                                        {% if group.disabled|default(false) %}
+                                            <select class="form-select" id="priced-option-{{ group.code }}" disabled>
+                                                <option>{{ group.reason|default('暂不可选：价格未核实，不会加入账单') }}</option>
+                                            </select>
+                                        {% else %}
                                         <select class="form-select priced-option-select" name="options[{{ group.code }}]" id="priced-option-{{ group.code }}" data-group="{{ group.code }}">
                                             {% for value in group.values %}
                                                 <option value="{{ value.code }}"{% if value.is_default %} selected{% endif %}{% if not value.in_stock %} disabled{% endif %}>
@@ -106,9 +111,11 @@
                                                 </option>
                                             {% endfor %}
                                         </select>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
+                            <p class="text-muted small mt-3 mb-0">Windows 没有标价，暂不可选、不计费。源站 pid 119 与 60 明确不提供 Windows。快照和备份不能确认是一项还是两项分别计费，因此整项关闭。</p>
                             <div id="priced-option-quote" class="alert alert-light border mt-3 mb-0" role="status">正在计算价格…</div>
                         </div>
                     {% elseif product.slug starts with 'mc-' %}
