@@ -37,10 +37,14 @@
             <div class="row g-3">
                 <div class="col-lg-6">
                     <label class="form-label">{{ 'Conversion Rate'|trans }}</label>
-                    <input class="form-control" type="text" name="conversion_rate" value="{{ currency.conversion_rate }}" required>
-                    <div class="form-hint">{{ 'The value of one unit of the default currency in this currency.'|trans }}</div>
+                    <input class="form-control" type="text" name="conversion_rate" value="{{ currency.conversion_rate }}"{% if currency.code != 'USD' %} readonly{% else %} required{% endif %}>
+                    {% if currency.code != 'USD' %}
+                        <div class="form-hint">历史汇率保持不变。保存显示设置不会改写汇率或币种代码。</div>
+                    {% else %}
+                        <div class="form-hint">{{ 'The value of one unit of the default currency in this currency.'|trans }}</div>
+                    {% endif %}
                 </div>
-                {% if not currency.default %}
+                {% if not currency.default and currency.code == 'USD' %}
                 <div class="col-lg-6 d-flex align-items-end">
                     <div class="form-check mb-2">
                         <input type="hidden" name="is_rate_manual" value="0">

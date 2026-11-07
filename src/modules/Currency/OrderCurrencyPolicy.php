@@ -46,4 +46,27 @@ final class OrderCurrencyPolicy
     {
         return self::isOrderCurrency($accountCurrency) && self::isOrderCurrency($invoiceCurrency);
     }
+
+    /**
+     * A saved financial row may be edited only when its currency is left unchanged.
+     * An omitted value is not a change; the caller keeps the stored code.
+     */
+    public static function assertStoredCurrency(?string $posted, ?string $stored): void
+    {
+        if (self::normalize($posted) !== self::normalize($stored)) {
+            throw new InformationException('历史记录的币种保持原样，不能改成其他币种。');
+        }
+    }
+
+    public static function isSameRate(string|float|null $posted, string|float|null $stored): bool
+    {
+        if ($posted === null || $posted === '') {
+            return true;
+        }
+        if (!is_numeric($posted) || !is_numeric((string) $stored)) {
+            return false;
+        }
+
+        return abs((float) $posted - (float) $stored) < 0.0000001;
+    }
 }

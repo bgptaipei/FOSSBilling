@@ -574,6 +574,9 @@ class Admin extends \FOSSBilling\Api\AbstractApi
         $this->checkPermissions('client', 'manage_balance');
 
         $client = $this->getDi()['em']->getRepository(Client::class)->find($data['id']) ?? throw new InformationException('Client not found');
+        if (strtoupper((string) $client->getCurrency()) !== 'USD') {
+            throw new InformationException('新增余额只使用美元（USD）。已有余额不会被改写。');
+        }
 
         $service = $this->getDi()['mod_service']('client');
         $service->addFunds($client, $data['amount'], $data['description'], $data);

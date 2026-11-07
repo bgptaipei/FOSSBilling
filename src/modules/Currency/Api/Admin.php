@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Box\Mod\Currency\Api;
 
 use Box\Mod\Currency\Entity\Currency;
+use Box\Mod\Currency\OrderCurrencyPolicy;
+use FOSSBilling\InformationException;
 use FOSSBilling\PaginationOptions;
 use FOSSBilling\Tools;
 use FOSSBilling\Validation\Api\RequiredParams;
@@ -47,17 +49,12 @@ class Admin extends \FOSSBilling\Api\AbstractApi
     {
         $this->checkPermissions('currency', 'view');
 
-        $currencies = Currencies::getNames();
-        foreach ($currencies as $currencyCode => $currencyName) {
-            /** @var string $currencyCode */
-            if (!Currencies::isValidInAnyCountry($currencyCode)) {
-                unset($currencies[$currencyCode]);
-            } else {
-                $currencies[$currencyCode] = sprintf('%s (%s)', $currencyCode, $currencyName);
-            }
+        $code = OrderCurrencyPolicy::CODE;
+        if (!Currencies::isValidInAnyCountry($code)) {
+            return [];
         }
 
-        return $currencies;
+        return [$code => sprintf('%s (%s)', $code, Currencies::getName($code))];
     }
 
     /**
@@ -112,6 +109,7 @@ class Admin extends \FOSSBilling\Api\AbstractApi
     public function create($data = []): string
     {
         $this->checkPermissions('currency', 'create');
+        OrderCurrencyPolicy::assertNewSelection(isset($data['code']) ? (string) $data['code'] : null);
 
         $service = $this->getService();
 
@@ -146,6 +144,24 @@ class Admin extends \FOSSBilling\Api\AbstractApi
     public function update($data): bool
     {
         $this->checkPermissions('currency', 'edit');
+
+        $code = (string) ($data['code'] ?? '');
+        if (!OrderCurrencyPolicy::isOrderCurrency($code)) {
+            if (array_key_exists('is_rate_manual', $data) && !Tools::normalizeBoolean($data['is_rate_manual'])) {
+                throw new InformationException('历史币种保持手工汇率，不会按外部汇率改写。');
+            }
+            if (array_key_exists('conversion_rate', $data) && $data['conversion_rate'] !== null && $data['conversion_rate'] !== '') {
+                /** @var \Box\Mod\Currency\Repository\CurrencyRepository $repo */
+                $repo = $this->getService()->getCurrencyRepository();
+                $existing = $repo->findOneByCode($code);
+                if (!$existing instanceof Currency) {
+                    throw new \FOSSBilling\Exception('Currency not found.');
+                }
+                if (!OrderCurrencyPolicy::isSameRate($data['conversion_rate'], $existing->getConversionRateRaw())) {
+                    throw new InformationException('历史币种的汇率保持不变。');
+                }
+            }
+        }
 
         $conversionRate = $data['conversion_rate'] ?? null;
         $isRateManual = array_key_exists('is_rate_manual', $data)
@@ -193,6 +209,9 @@ class Admin extends \FOSSBilling\Api\AbstractApi
     public function delete($data): bool
     {
         $this->checkPermissions('currency', 'delete');
+        if (!OrderCurrencyPolicy::isOrderCurrency((string) ($data['code'] ?? ''))) {
+            throw new InformationException('历史币种行保留给已有交易，不能删除。');
+        }
 
         return $this->getService()->removeCurrency($data['code']);
     }
@@ -207,6 +226,7 @@ class Admin extends \FOSSBilling\Api\AbstractApi
     public function set_default($data): bool
     {
         $this->checkPermissions('currency', 'set_default');
+        OrderCurrencyPolicy::assertNewSelection(isset($data['code']) ? (string) $data['code'] : null);
 
         $service = $this->getService();
 

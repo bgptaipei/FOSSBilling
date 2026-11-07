@@ -142,8 +142,10 @@
                                         <input class="form-control" id="subscription_amount" type="text" name="amount" value="{{ subscription.amount }}" required>
                                     </div>
                                     <div class="col-xl-6">
-                                        <label class="form-label">{{ 'Currency'|trans }}</label>
-                                        {{ mf.selectbox('currency', guest.currency_get_pairs, subscription.currency, 1, 'Select Currency'|trans) }}
+                                        <label class="form-label" for="subscription_currency">{{ 'Currency'|trans }}</label>
+                                        <input class="form-control" id="subscription_currency" type="text" value="{{ subscription.currency }}" disabled>
+                                        <input type="hidden" name="currency" value="{{ subscription.currency }}">
+                                        <div class="form-hint">订阅币种保持原记录，不会改成其他币种。</div>
                                     </div>
                                 </div>
                             {% endblock %}

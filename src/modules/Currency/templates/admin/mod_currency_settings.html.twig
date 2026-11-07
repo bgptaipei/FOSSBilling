@@ -128,7 +128,7 @@
                                                 </svg>
                                             </a>
                                         {% endif %}
-                                        {% if can_delete_currency %}
+                                        {% if can_delete_currency and currency.code == 'USD' %}
                                             <a class="btn btn-icon" href="{{ 'currency/delete'|api_url(query: { 'code': currency.code }) }}"
                                                 data-bs-toggle="tooltip" data-bs-title="{{ 'Delete'|trans }}"
                                                 {{ fb_api_link({modal: {type: 'danger', title: 'Are you sure?'|trans, button: 'Delete'|trans}, redirect: 'extension/settings/currency'|url}) }}>
@@ -137,7 +137,7 @@
                                                 </svg>
                                             </a>
                                         {% endif %}
-                                        {% if not currency.default and can_set_default_currency %}
+                                        {% if not currency.default and currency.code == 'USD' and can_set_default_currency %}
                                             <a class="btn btn-icon" href="{{'currency/set_default'|api_url(query: { 'code': currency.code }) }}"
                                                 data-bs-toggle="tooltip" data-bs-title="{{ 'Set as Default'|trans }}"
                                                 {{ fb_api_link({redirect: 'extension/settings/currency'|url}) }}>
@@ -293,7 +293,9 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label" for="code">{{ 'Currency Code'|trans }}</label>
-                            {{ mf.selectbox('code', admin.currency_get_pairs, 'USD', 1) }}
+                            <input class="form-control" type="text" value="USD" disabled>
+                            <input type="hidden" name="code" value="USD">
+                            <div class="form-hint">新的币种只使用美元（USD）。已有人民币行保留给历史交易。</div>
                         </div>
                         <div>
                             <label class="form-label" for="new-currency-rate">{{ 'Conversion Rate'|trans }}</label>
