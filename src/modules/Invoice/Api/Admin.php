@@ -114,6 +114,10 @@ class Admin extends \FOSSBilling\Api\AbstractApi
         $this->checkPermissions('invoice', 'manage_invoices');
 
         $client = $this->getDi()['db']->getExistingModelById('Client', $data['client_id'], 'Client not found');
+        $clientCurrency = strtoupper(trim((string) ($client->currency ?? '')));
+        if ($clientCurrency !== '' && $clientCurrency !== \Box\Mod\Currency\OrderCurrencyPolicy::CODE) {
+            throw new InformationException('新发票只使用美元（USD）。已有人民币记录保持原币种。');
+        }
 
         $invoice = $this->getService()->prepareInvoice($client, $data);
 
@@ -458,6 +462,11 @@ class Admin extends \FOSSBilling\Api\AbstractApi
         $this->checkPermissions('invoice', 'manage_transactions');
 
         $model = $this->getDi()['db']->getExistingModelById('Transaction', $data['id'], 'Transaction not found');
+        if (array_key_exists('currency', $data) && $data['currency'] !== null && $data['currency'] !== '') {
+            \Box\Mod\Currency\OrderCurrencyPolicy::assertStoredCurrency((string) $data['currency'], (string) $model->currency);
+        } else {
+            unset($data['currency']);
+        }
 
         $transactionService = $this->getDi()['mod_service']('Invoice', 'Transaction');
 
@@ -482,6 +491,9 @@ class Admin extends \FOSSBilling\Api\AbstractApi
 
         $transactionService = $this->getDi()['mod_service']('Invoice', 'Transaction');
         $data['source'] ??= 'admin';
+        if (array_key_exists('currency', $data) && $data['currency'] !== null && $data['currency'] !== '') {
+            \Box\Mod\Currency\OrderCurrencyPolicy::assertNewSelection((string) $data['currency']);
+        }
 
         return $transactionService->create($data);
     }
@@ -830,6 +842,8 @@ class Admin extends \FOSSBilling\Api\AbstractApi
     {
         $this->checkPermissions('invoice', 'manage_subscriptions');
 
+        \Box\Mod\Currency\OrderCurrencyPolicy::assertNewSelection((string) ($data['currency'] ?? ''));
+
         $client = $this->getDi()['db']->getExistingModelById('Client', $data['client_id'], 'Client not found');
         $payGateway = $this->getDi()['db']->getExistingModelById('PayGateway', $data['gateway_id'], 'Payment gateway not found');
 
@@ -860,6 +874,11 @@ class Admin extends \FOSSBilling\Api\AbstractApi
         $this->checkPermissions('invoice', 'manage_subscriptions');
 
         $model = $this->getDi()['db']->getExistingModelById('Subscription', $data['id'], 'Subscription not found');
+        if (array_key_exists('currency', $data) && $data['currency'] !== null && $data['currency'] !== '') {
+            \Box\Mod\Currency\OrderCurrencyPolicy::assertStoredCurrency((string) $data['currency'], (string) $model->currency);
+        } else {
+            unset($data['currency']);
+        }
         $subscriptionService = $this->getDi()['mod_service']('Invoice', 'Subscription');
 
         return $subscriptionService->update($model, $data);

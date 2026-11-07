@@ -4,7 +4,7 @@
 {% block meta_title %}{{ 'Client Area'|trans }}{% endblock %}
 {% block page_header %}{{ 'Dashboard'|trans }}{% endblock %}
 
-{% block body_class %}dashboard{% endblock %}
+{% block body_class %}dashboard{% if not client %} tb-home{% endif %}{% endblock %}
 {% block breadcrumbs %}
     {% if not settings.hide_dashboard_breadcrumb %}
         <ul class="breadcrumb">
@@ -21,7 +21,7 @@
 
     {% if settings.showcase_enabled %}
         <div class="alert alert-info" role="alert">
-            <p>{{ (settings.showcase_text ?? '')|markdown_to_html }}</p>
+            <p>{{ (('twbyte-demo|' ~ (settings.showcase_text ?? ''))|trans|replace({'twbyte-demo|': ''}))|markdown_to_html }}</p>
 
             {% if (settings.showcase_button_url) and (settings.showcase_button_title) %}
                 <a class="btn btn-sm btn-primary btn-large"
@@ -42,7 +42,7 @@
                     {% for ticket in dashboard.recent_tickets %}
                         {% if ticket.status == 'on_hold' %}
                             <div class="alert alert-info d-flex justify-content-between" role="alert">
-                                <span>Ticket <strong>#{{ ticket.id }}</strong> was replied to {{ ticket.updated_at|timeago }} {{ 'ago'|trans }}.</span>
+                                <span>{{ 'Ticket'|trans }} <strong>#{{ ticket.id }}</strong> {{ 'was replied to'|trans }} {{ ticket.updated_at|timeago }} {{ 'ago'|trans }}.</span>
                                 <a href='{{ "support/ticket/#{ticket.id}"|url }}'
                                    class="alert-link">{{ 'Reply'|trans }}</a>
                             </div>
@@ -221,61 +221,21 @@
     {% else %}
         {{ render_widgets('client.index.dashboard.guest.before') }}
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-header h6 py-3">{{ 'Profile'|trans }}</div>
-                    <div class="card-body">
-                        <p>{{ 'You are currently logged out'|trans }}</p>
-                        <div class="d-flex gap-2">
-                            <a class="btn btn-sm btn-primary" href="{{ 'login'|url }}">{{ 'Login'|trans }}</a>
-                            <a class="btn btn-sm btn-dark" href="{{ 'signup'|url }}">{{ 'Register'|trans }}</a>
-                        </div>
-                    </div>
-                </div>
+        <section class="tb-hero">
+            <h1>选购云服务器</h1>
+            <p>价格以美元显示。登录后管理服务、发票和工单。</p>
+            <div class="d-flex gap-2">
+                <a class="btn tb-primary" href="{{ 'order'|url }}">查看产品</a>
+                <a class="btn btn-outline-light" href="{{ 'login'|url }}">登录</a>
             </div>
-
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-header h6 py-3">{{ 'Order'|trans }}</div>
-                    <div class="card-body">
-                        <p>{{ 'Order new products and services'|trans }}</p>
-                        <div class="d-flex gap-2">
-                            <a class="btn btn-sm btn-dark" href="{{ 'order'|url }}">{{ 'Order'|trans }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        </section>
+        <div class="tb-home-cards">
+            <a class="tb-card" href="{{ 'order'|url }}"><h3>云服务器与独立服务器</h3><p>按地区浏览，并在下单前查看配置价格。</p></a>
+            <a class="tb-card" href="{{ 'support'|url }}"><h3>工单</h3><p>登录后提交和查看支持请求。</p></a>
             {% if guest.extension_is_on({"mod":"news"}) %}
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-header h6 py-3">{{ 'News'|trans }}</div>
-                        <div class="card-body">
-                            <p>{{ 'Latest news and announcements'|trans }}</p>
-                            <div class="d-flex gap-2">
-                                <a class="btn btn-sm btn-dark" href="{{ 'news'|url }}">{{ 'Announcements'|trans }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if guest.support_kb_enabled() %}
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-header h6 py-3">{{ 'Knowledge Base'|trans }}</div>
-                        <div class="card-body">
-                            <p>{{ 'Find answers to frequent questions'|trans }}</p>
-                            <div class="d-flex gap-2">
-                                <a class="btn btn-sm btn-dark" href="{{ 'support/kb'|url }}">{{ 'Knowledge Base'|trans }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <a class="tb-card" href="{{ 'news'|url }}"><h3>公告</h3><p>查看站点公告。</p></a>
             {% endif %}
         </div>
-
         {{ render_widgets('client.index.dashboard.guest.after') }}
     {% endif %}
 

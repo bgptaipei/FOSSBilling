@@ -174,7 +174,9 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label class="form-label" for="transaction_currency">{{ 'Currency'|trans }}</label>
-                                    <input class="form-control" id="transaction_currency" type="text" name="currency" value="{{ transaction.currency }}">
+                                    <input class="form-control" id="transaction_currency" type="text" value="{{ transaction.currency }}" disabled>
+                                    <input type="hidden" name="currency" value="{{ transaction.currency }}">
+                                    <div class="form-hint">保存其他字段不会改写这笔交易的币种。</div>
                                 </div>
                             </div>
                         {% endblock %}

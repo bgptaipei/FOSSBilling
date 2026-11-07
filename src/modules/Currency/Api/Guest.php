@@ -25,7 +25,14 @@ class Guest extends \FOSSBilling\Api\AbstractApi
         /** @var \Box\Mod\Currency\Repository\CurrencyRepository $repo */
         $repo = $this->getService()->getCurrencyRepository();
 
-        return $repo->getPairs();
+        $pairs = [];
+        foreach ($repo->getPairs() as $code => $name) {
+            if (\Box\Mod\Currency\OrderCurrencyPolicy::isOrderCurrency((string) $code)) {
+                $pairs[$code] = $name;
+            }
+        }
+
+        return $pairs;
     }
 
     /**

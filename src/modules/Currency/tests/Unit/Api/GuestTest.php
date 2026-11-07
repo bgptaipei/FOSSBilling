@@ -35,10 +35,8 @@ test('get pairs', function (): void {
     $guestApi->setService($service);
 
     $result = $guestApi->get_pairs();
-    expect($willReturn)->toEqual($result);
-    expect($result)->toBeArray();
-    expect($result)->toHaveKey('EUR');
-    expect($result)->toHaveKey('USD');
+    expect($result)->toBe(['USD' => 'US Dollar']);
+    expect($result)->not->toHaveKey('EUR');
 });
 
 dataset('getProvider', [

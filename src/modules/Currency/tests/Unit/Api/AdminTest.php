@@ -212,8 +212,9 @@ test('get pairs', function (): void {
 
     $result = $adminApi->get_pairs();
     expect($result)->toBeArray();
-    expect($result)->toHaveKey('EUR');
-    expect($result['EUR'])->toContain('EUR');
+    expect($result)->toHaveKey('USD');
+    expect($result)->not->toHaveKey('EUR');
+    expect($result['USD'])->toContain('USD');
 });
 
 test('get', function (): void {
@@ -301,64 +302,25 @@ test('get default', function (): void {
     expect($returnArr['default'])->toBeTrue();
 });
 
-dataset('createException', [
-    [
-        [
-            'code' => 'EUR',
-            'format' => '€{{price}}',
-        ],
-        'atLeastOnce',
-        'currency_exists',
-        'never',
-    ],
-    [
-        [
-            'code' => 'NON',
-            'format' => '€{{price}}',
-        ],
-        'atLeastOnce',
-        null,
-        'atLeastOnce',
-    ],
-]);
-
-test('create exception', function ($data, $findOneByCodeCalled, $findOneByCodeReturn, $getAvailableCurrenciesCalled): void {
+test('create rejects a non-USD currency before registering it', function (): void {
     $adminApi = apiEndpoint(new Box\Mod\Currency\Api\Admin());
-
-    $repositoryMock = Mockery::mock('\\' . Box\Mod\Currency\Repository\CurrencyRepository::class);
-
-    if ($findOneByCodeReturn === 'currency_exists') {
-        $findOneByCodeReturn = $this->createStub('\\' . Box\Mod\Currency\Entity\Currency::class);
-    }
-
-    if ($findOneByCodeCalled === 'atLeastOnce') {
-        $repositoryMock
-            ->shouldReceive('findOneByCode')
-            ->atLeast()->once()
-            ->andReturn($findOneByCodeReturn);
-    }
-
     $service = Mockery::mock('\\' . Box\Mod\Currency\Service::class);
-    $service
-    ->shouldReceive('getCurrencyRepository')
-    ->atLeast()->once()
-    ->andReturn($repositoryMock);
-
-    $di = container();
+    $service->shouldNotReceive('getCurrencyRepository');
+    $service->shouldNotReceive('createCurrency');
     $adminApi->setService($service);
-    $adminApi->setDi($di);
-    $this->expectException(FOSSBilling\Exception::class);
-    $adminApi->create($data);
-})->with('createException');
+    $adminApi->setDi(container());
+
+    expect(fn () => $adminApi->create(['code' => 'EUR']))
+        ->toThrow(FOSSBilling\InformationException::class, '新的价格和结算只使用美元（USD）。');
+});
 
 test('create', function (): void {
     $adminApi = apiEndpoint(new Box\Mod\Currency\Api\Admin());
 
     $data = [
-        'code' => 'EUR',
-        'conversion_rate' => '0.92',
-        'is_rate_manual' => '1',
-        'format' => '€{{price}}',
+        'code' => 'USD',
+        'conversion_rate' => '1',
+        'is_rate_manual' => '0',
     ];
 
     $repositoryMock = Mockery::mock('\\' . Box\Mod\Currency\Repository\CurrencyRepository::class);
@@ -375,7 +337,7 @@ test('create', function (): void {
     $service
     ->shouldReceive('createCurrency')
     ->once()
-    ->with('EUR', '0.92', true)
+    ->with('USD', '1', false)
     ->andReturn($data['code']);
 
     $di = container();
@@ -384,40 +346,47 @@ test('create', function (): void {
 
     $result = $adminApi->create($data);
 
-    expect($result)->toBeString();
-    expect(3)->toEqual(strlen($result));
-    expect($data['code'])->toEqual($result);
+    expect($result)->toBe('USD');
 });
 
-test('update', function (): void {
+test('update refuses to change a historical currency rate', function (): void {
     $adminApi = apiEndpoint(new Box\Mod\Currency\Api\Admin());
-
-    $data = [
-        'code' => 'EUR',
-        'conversion_rate' => 0.6,
-        'is_rate_manual' => '1',
-        'format_pattern' => '{amount} EUR',
-        'fraction_digits' => '0',
-    ];
-
+    $model = Mockery::mock(Box\Mod\Currency\Entity\Currency::class);
+    $model->shouldReceive('getConversionRateRaw')->andReturn('6.700000');
+    $repository = Mockery::mock(Box\Mod\Currency\Repository\CurrencyRepository::class);
+    $repository->shouldReceive('findOneByCode')->once()->with('CNY')->andReturn($model);
     $service = Mockery::mock(Box\Mod\Currency\Service::class);
-    $service
-    ->shouldReceive('updateCurrency')
-    ->once()
-    ->with('EUR', 0.6, [
-        'format_pattern' => '{amount} EUR',
-        'fraction_digits' => '0',
-    ], true)
-    ->andReturn(true);
-
-    $di = container();
-    $adminApi->setDi($di);
+    $service->shouldReceive('getCurrencyRepository')->andReturn($repository);
+    $service->shouldNotReceive('updateCurrency');
     $adminApi->setService($service);
+    $adminApi->setDi(container());
 
-    $result = $adminApi->update($data);
+    expect(fn () => $adminApi->update([
+        'code' => 'CNY',
+        'conversion_rate' => '1',
+    ]))->toThrow(FOSSBilling\InformationException::class, '历史币种的汇率保持不变。');
+});
 
-    expect($result)->toBeBool();
-    expect($result)->toBeTrue();
+test('update keeps a historical rate when the posted rate is unchanged', function (): void {
+    $adminApi = apiEndpoint(new Box\Mod\Currency\Api\Admin());
+    $model = Mockery::mock(Box\Mod\Currency\Entity\Currency::class);
+    $model->shouldReceive('getConversionRateRaw')->andReturn('6.700000');
+    $repository = Mockery::mock(Box\Mod\Currency\Repository\CurrencyRepository::class);
+    $repository->shouldReceive('findOneByCode')->once()->with('CNY')->andReturn($model);
+    $service = Mockery::mock(Box\Mod\Currency\Service::class);
+    $service->shouldReceive('getCurrencyRepository')->andReturn($repository);
+    $service->shouldReceive('updateCurrency')
+        ->once()
+        ->with('CNY', '6.7', [], true)
+        ->andReturn(true);
+    $adminApi->setService($service);
+    $adminApi->setDi(container());
+
+    expect($adminApi->update([
+        'code' => 'CNY',
+        'conversion_rate' => '6.7',
+        'is_rate_manual' => '1',
+    ]))->toBeTrue();
 });
 
 test('update forwards individual formatting fields without clearing the other setting', function (): void {
@@ -457,31 +426,26 @@ test('delete', function (): void {
     $adminApi = apiEndpoint(new Box\Mod\Currency\Api\Admin());
 
     $data = [
-        'code' => 'EUR',
-        'format' => '€{{price}}',
+        'code' => 'CNY',
     ];
 
     $service = Mockery::mock(Box\Mod\Currency\Service::class)->makePartial();
     $service
-    ->shouldReceive('removeCurrency')
-    ->atLeast()->once()
-    ->andReturn(true);
+    ->shouldNotReceive('removeCurrency');
 
     $di = container();
     $di['validator'] = new FOSSBilling\Validate();
     $adminApi->setDi($di);
     $adminApi->setService($service);
 
-    $result = $adminApi->delete($data);
-
-    expect($result)->toBeBool();
-    expect($result)->toBeTrue();
+    expect(fn () => $adminApi->delete($data))
+        ->toThrow(FOSSBilling\InformationException::class, '历史币种行保留给已有交易，不能删除。');
 });
 
 dataset('setDefaultException', [
     [
         [
-            'code' => 'EUR',
+            'code' => 'USD',
         ],
         'atLeastOnce',
         null,
@@ -517,7 +481,7 @@ test('set default', function (): void {
     $model = $this->createStub('\\' . Box\Mod\Currency\Entity\Currency::class);
 
     $data = [
-        'code' => 'EUR',
+        'code' => 'USD',
         'format' => '€{{price}}',
     ];
 

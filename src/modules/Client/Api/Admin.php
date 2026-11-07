@@ -215,6 +215,12 @@ class Admin extends \FOSSBilling\Api\AbstractApi
             $validator->isPasswordStrong($data['password']);
         }
 
+        $requestedCurrency = strtoupper(trim((string) ($data['currency'] ?? '')));
+        if ($requestedCurrency !== '' && $requestedCurrency !== 'USD') {
+            throw new InformationException('新建客户只使用美元（USD）。');
+        }
+        $data['currency'] = 'USD';
+
         $this->getDi()['events_manager']->fire(['event' => 'onBeforeAdminClientCreate', 'params' => $data]);
         $id = $service->adminCreateClient($data);
         $this->getDi()['events_manager']->fire(['event' => 'onAfterAdminClientCreate', 'params' => $data]);
@@ -327,9 +333,15 @@ class Admin extends \FOSSBilling\Api\AbstractApi
             unset($data['birthday']);
         }
 
-        $currency = $data['currency'] ?? null;
-        if ($currency && $service->canChangeCurrency($client, $currency)) {
-            $client->setCurrency($currency);
+        if (array_key_exists('currency', $data) && $data['currency'] !== null && $data['currency'] !== '') {
+            $currentCurrency = strtoupper((string) $client->getCurrency());
+            $nextCurrency = strtoupper((string) $data['currency']);
+            if ($nextCurrency !== 'USD') {
+                throw new InformationException('新的币种选择只允许美元（USD）。历史交易保持原币种。');
+            }
+            if (($currentCurrency === '' || $currentCurrency === 'USD') && $service->canChangeCurrency($client, 'USD')) {
+                $client->setCurrency('USD');
+            }
         }
 
         $this->getDi()['events_manager']->fire(['event' => 'onBeforeAdminClientUpdate', 'params' => $data]);
@@ -562,6 +574,9 @@ class Admin extends \FOSSBilling\Api\AbstractApi
         $this->checkPermissions('client', 'manage_balance');
 
         $client = $this->getDi()['em']->getRepository(Client::class)->find($data['id']) ?? throw new InformationException('Client not found');
+        if (strtoupper((string) $client->getCurrency()) !== 'USD') {
+            throw new InformationException('新增余额只使用美元（USD）。已有余额不会被改写。');
+        }
 
         $service = $this->getDi()['mod_service']('client');
         $service->addFunds($client, $data['amount'], $data['description'], $data);

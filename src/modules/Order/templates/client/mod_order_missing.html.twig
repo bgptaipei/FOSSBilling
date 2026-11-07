@@ -1,0 +1,10 @@
+{% extends request.ajax ? "layout_blank.html.twig" : "layout_default.html.twig" %}
+{% set active_menu = 'order' %}
+
+{% block meta_title %}{{ 'Order'|trans }}{% endblock %}
+{% block body_class %}order-missing{% endblock %}
+
+{% block content %}
+    <div class="alert alert-secondary" role="status">没有找到这个产品。</div>
+    <p><a href="{{ 'order'|url }}">返回产品</a></p>
+{% endblock %}

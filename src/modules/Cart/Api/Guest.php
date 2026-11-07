@@ -53,6 +53,7 @@ class Guest extends \FOSSBilling\Api\AbstractApi
     #[RequiredParams(['currency' => 'Currency code was not passed'])]
     public function set_currency($data)
     {
+        \Box\Mod\Currency\OrderCurrencyPolicy::assertNewSelection((string) ($data['currency'] ?? ''));
         $currencyService = $this->getDi()['mod_service']('currency');
         /** @var \Box\Mod\Currency\Repository\CurrencyRepository $currencyRepository */
         $currencyRepository = $currencyService->getCurrencyRepository();

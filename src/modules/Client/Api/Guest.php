@@ -116,6 +116,12 @@ class Guest extends \FOSSBilling\Api\AbstractApi
                 return $this->handleExistingOrRateLimitedSignup($email, $data, $autoLogin);
             }
 
+            $requestedCurrency = strtoupper(trim((string) ($data['currency'] ?? '')));
+            if ($requestedCurrency !== '' && $requestedCurrency !== 'USD') {
+                throw new \FOSSBilling\InformationException('新注册只使用美元（USD）。');
+            }
+            $data['currency'] = 'USD';
+
             try {
                 $client = $service->guestCreateClient($data);
             } catch (UniqueConstraintViolationException $exception) {

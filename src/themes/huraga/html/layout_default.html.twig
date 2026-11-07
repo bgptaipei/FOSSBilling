@@ -31,6 +31,7 @@
 
     <link rel="stylesheet" href="{{ 'build/css/vendor.css' | asset_url }}">
     <link rel="stylesheet" href="{{ 'build/css/huraga.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'css/twbyte-portal.css' | asset_url }}">
     <link rel="shortcut icon" href="{{ guest.system_company.favicon_url }}">
 
     {{ 'js/fossbilling.js' | public_asset_url | script_tag }}
@@ -43,7 +44,7 @@
     {% block js %}{% endblock %}
 </head>
 
-<body class="{% block body_class %}{% endblock %}">
+<body class="tb-shell {% block body_class %}{% endblock %}">
 
 <div class="d-none">{{ svg_sprite() }}</div>
 
@@ -81,6 +82,9 @@
 {% set guest_support_url = guest.support_guest_tickets_enabled() ? 'support/contact-us'|url : 'login'|url %}
 {% set support_url = client ? 'support'|url : guest_support_url %}
 
+<div class="tb-portal">
+{{ include('partial_tb_sidebar.html.twig') }}
+<div class="tb-main">
 <div class="container">
     <header>
         {{ render_widgets('client.theme.header.start') }}
@@ -130,19 +134,19 @@
                         </li>
 
                         {% if settings.top_menu_dashboard %}
-                            <li class="nav-item d-md-flex">
+                            <li class="nav-item d-md-flex tb-legacy-nav">
                                 <a class="nav-link{% if current_active_menu == 'dashboard' %} active{% endif %}" href="{{ ''|url }}"{% if current_active_menu == 'dashboard' %} aria-current="page"{% endif %}>{{ 'Dashboard'|trans }}</a>
                             </li>
                         {% endif %}
 
                         {% if settings.top_menu_order %}
-                            <li class="nav-item d-md-flex">
+                            <li class="nav-item d-md-flex tb-legacy-nav">
                                 <a class="nav-link{% if current_active_menu == 'order' %} active{% endif %}" href="{{ 'order'|url }}"{% if current_active_menu == 'order' %} aria-current="page"{% endif %}>{{ 'Order'|trans }}</a>
                             </li>
                         {% endif %}
 
                         {% if settings.top_menu_profile and not client %}
-                            <li class="nav-item d-md-flex">
+                            <li class="nav-item d-md-flex tb-legacy-nav">
                                 <a class="nav-link{% if current_active_menu == 'login' %} active{% endif %}" href="{{ 'login'|url }}"{% if current_active_menu == 'login' %} aria-current="page"{% endif %}>{{ 'Login'|trans }}</a>
                             </li>
                         {% endif %}
@@ -164,7 +168,7 @@
                                         </ul>
                                     </div>
                                 {% else %}
-                                    <a class="ms-2 btn btn-outline-primary d-none d-md-block"
+                                    <a class="ms-2 btn btn-outline-primary d-none d-md-block tb-legacy-nav"
                                        href="{{ 'signup'|url }}">{{ 'Register'|trans }}</a>
                                 {% endif %}
                             </li>
@@ -184,11 +188,11 @@
     <div class="container">
         <div class="row">
         {% if client or not settings.hide_menu %}
-            <div class="col-3 d-none d-md-block">
+            <div class="col-3 d-none d-md-block tb-legacy-menu">
                 {{ include('partial_menu.html.twig') }}
             </div>
         {% endif %}
-            <div class="col-12 col-md-9{% if not client and settings.hide_menu %} mx-auto{% endif %}">
+            <div class="col-12 col-md-9 tb-legacy-content{% if not client and settings.hide_menu %} mx-auto{% endif %}">
                 <div id="wrapper">
                     <section role="main">
                         {% block content_before %}{% endblock %}
@@ -280,6 +284,8 @@
     {% if guest.extension_is_on({ "mod": "cookieconsent" }) %}
         {{ include('mod_cookieconsent_index.html.twig', ignore_missing: true) }}
     {% endif %}
+</div>
+</div>
 </div>
 {{ render_widgets('client.theme.body.end') }}
 {{ debug_bar_render() }}

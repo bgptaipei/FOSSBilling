@@ -12,12 +12,13 @@
 
     <link rel="stylesheet" href="{{ 'build/css/vendor.css' | asset_url }}">
     <link rel="stylesheet" href="{{ 'build/css/fossbilling.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'css/twbyte-admin.css' | asset_url }}">
     {{ 'js/fossbilling.js' | public_asset_url | script_tag }}
     {{ 'js/api.js' | public_asset_url | script_tag }}
     <script type="module" src="{{ 'build/js/fossbilling.js' | asset_url }}"></script>
 </head>
 
-<body class="border-top-wide border-primary d-flex flex-column">
+<body class="tb-admin-login d-flex flex-column">
     <script>
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute("data-bs-theme", localStorage.getItem('theme'));

@@ -3,16 +3,18 @@
 {% set _auth_footer_note_fallback %}{% block auth_footer_note %}{% endblock %}{% endset %}
 {% set auth_footer_note = block('auth_footer_note')|trim %}
 
-<div class="page page-center">
-    <div class="container-tight py-4">
-        <div class="text-center mb-4">
-            {{ include('partial_company_logo.html.twig', {
-                company: company,
-                link_url: '/'|url(area: 'client'),
-                image_style: 'height: 60px; width: auto;',
-                fallback_class: 'h1'
-            }) }}
-        </div>
+<div class="page page-center tb-admin-auth">
+    <section class="tb-admin-auth-brand">
+        {{ include('partial_company_logo.html.twig', {
+            company: company,
+            link_url: '/'|url(area: 'client'),
+            image_style: 'height: 48px; width: auto;',
+            fallback_class: 'h1'
+        }) }}
+        <h1>管理后台</h1>
+        <p>登录后处理客户、订单、发票和工单。新的价格和结算使用美元。历史人民币记录保留原币种，不能当作新币种选择。</p>
+    </section>
+    <section class="tb-admin-auth-panel">
         <div class="card card-md">
             <div class="card-body">
                 <h2 class="h2 text-center mb-4">{{ title }}</h2>
@@ -27,5 +29,5 @@
                 {{ auth_footer_note|raw }}
             </div>
         {% endif %}
-    </div>
+    </section>
 </div>

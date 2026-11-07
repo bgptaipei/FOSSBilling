@@ -53,9 +53,15 @@
                             <label class="form-label" for="gateway_accepted_currencies">{{ 'Accepted Currencies'|trans }}</label>
                             <div class="form-text mb-2">{{ 'Select which currencies can accept this payment gateway. Leave all unselected to allow all currencies.'|trans }}</div>
                             {% set currencies = guest.currency_get_pairs %}
-                            <select class="form-select" id="gateway_accepted_currencies" name="accepted_currencies[]" multiple size="{{ currencies|length > 8 ? 8 : currencies|length }}">
+                            {% set accepted = gateway.accepted_currencies|default([]) %}
+                            <select class="form-select" id="gateway_accepted_currencies" name="accepted_currencies[]" multiple size="{{ currencies|length + accepted|length > 8 ? 8 : currencies|length + accepted|length }}">
                                 {% for id, currency in currencies %}
-                                <option value="{{ id }}"{% if id in gateway.accepted_currencies %} selected{% endif %}>{{ currency }}</option>
+                                <option value="{{ id }}"{% if id in accepted %} selected{% endif %}>{{ currency }}</option>
+                                {% endfor %}
+                                {% for id in accepted %}
+                                    {% if id not in currencies|keys %}
+                                    <option value="{{ id }}" selected>{{ id }}（历史已选，保留，不是新币种）</option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
