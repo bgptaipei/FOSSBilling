@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Box\Mod\Order\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class Client implements \FOSSBilling\InjectionAwareInterface
 {
     protected ?\Pimple\Container $di = null;
@@ -34,15 +36,64 @@ class Client implements \FOSSBilling\InjectionAwareInterface
         $app->get('/order/service/manage/:id', 'get_order', ['id' => '[0-9]+'], static::class);
     }
 
-    public function get_products(\Box_App $app): string
+    public function get_products(\Box_App $app): string|Response
     {
-        return $app->render('mod_order_index');
+        $requested = $this->requestedProduct($app);
+        if ($requested === null) {
+            return $app->render('mod_order_index');
+        }
+
+        $product = $this->findActiveProduct($requested);
+        if ($product === null) {
+            return $this->renderMissing($app, $requested);
+        }
+
+        return $app->render('mod_order_index', ['product' => $product]);
     }
 
-    public function get_configure_product_by_slug(\Box_App $app, $slug): string
+    public function get_configure_product_by_slug(\Box_App $app, $slug): string|Response
+    {
+        $product = $this->findActiveProduct((string) $slug);
+
+        return $product === null ? $this->renderMissing($app, (string) $slug) : $this->renderConfigured($app, $product);
+    }
+
+    public function get_configure_product(\Box_App $app, $id): string|Response
+    {
+        $product = $this->findActiveProduct((string) $id);
+
+        return $product === null ? $this->renderMissing($app, (string) $id) : $this->renderConfigured($app, $product);
+    }
+
+    private function requestedProduct(\Box_App $app): ?string
+    {
+        $value = trim((string) $app->getRequest()->query->get('product', ''));
+
+        return $value === '' ? null : $value;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function findActiveProduct(string $value): ?array
+    {
+        $criteria = ctype_digit($value) ? ['id' => (int) $value] : ['slug' => $value];
+
+        try {
+            $product = $this->di['api_guest']->product_get($criteria);
+        } catch (\FOSSBilling\InformationException) {
+            return null;
+        }
+
+        return is_array($product) && $product !== [] ? $product : null;
+    }
+
+    /**
+     * @param array<string, mixed> $product
+     */
+    private function renderConfigured(\Box_App $app, array $product): string
     {
         $api = $this->di['api_guest'];
-        $product = $api->product_get(['slug' => $slug]);
         $tpl = 'mod_service' . $product['type'] . '_order';
         if ($api->system_template_exists(['file' => $tpl . '.html.twig'])) {
             return $app->render($tpl, ['product' => $product]);
@@ -51,16 +102,9 @@ class Client implements \FOSSBilling\InjectionAwareInterface
         return $app->render('mod_order_product', ['product' => $product]);
     }
 
-    public function get_configure_product(\Box_App $app, $id): string
+    private function renderMissing(\Box_App $app, string $requested): Response
     {
-        $api = $this->di['api_guest'];
-        $product = $api->product_get(['id' => $id]);
-        $tpl = 'mod_service' . $product['type'] . '_order';
-        if ($api->system_template_exists(['file' => $tpl . '.html.twig'])) {
-            return $app->render($tpl, ['product' => $product]);
-        }
-
-        return $app->render('mod_order_product', ['product' => $product]);
+        return $app->renderResponse('mod_order_missing', ['requested' => $requested], 404);
     }
 
     public function get_orders(\Box_App $app): string

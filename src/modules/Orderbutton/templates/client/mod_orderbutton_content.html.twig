@@ -5,7 +5,7 @@
     {{ include('partial_tb_sidebar.html.twig') }}
     <div class="tb-main">
         <div class="tb-crumb">首页 / 选购</div>
-        {% if request.product %}
+        {% if product is defined and product %}
             <p><a href="{{ 'order'|url }}">返回产品</a></p>
             <div class="tb-order-body">
                 <div>

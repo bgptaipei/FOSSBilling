@@ -1,5 +1,5 @@
 {% if product is not defined or not product %}
-    {% set product = request.product ? guest.product_get({"id":request.product}) : null %}
+    {% set product = null %}
 {% endif %}
 <div class="accordion-item">
     <h3 class="accordion-header">
